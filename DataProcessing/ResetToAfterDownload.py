@@ -1,5 +1,6 @@
 import os
 import sys
+import shutil
 
 if __name__ == "__main__":
 
@@ -15,8 +16,4 @@ if __name__ == "__main__":
         for folder in os.listdir(species_directory):
             directory = os.path.join(species_directory, folder)
             if not folder == "Structure_Downloads":
-                for filename in os.listdir(directory):
-                    filepath = os.path.join(directory, filename)
-                    print(filepath)
-                    os.remove(filepath)
-                os.rmdir(directory)
+                shutil.rmtree(directory)
