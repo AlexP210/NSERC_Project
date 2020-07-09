@@ -1,0 +1,12 @@
+@ECHO OFF
+CALL activate Bioinformatics
+cd C:\Users\alexp\Desktop\School\3rd_Year\NSERC\StructuralSequenceSimilarity\Scripts\DataProcessing
+START /WAIT python ScrapePeriodicTable.py http://sea31.user.srcf.net/periodictable/(1,2)_([1,1],[0,1,0])_all.html E:\NSERC_Data\PeriodicTable.txt
+START /WAIT python DownloadPDBs.py E:\NSERC_Data\PeriodicTable.txt E:\NSERC_Data\PDB_Files
+START /WAIT python RemoveDuplicates.py E:\NSERC_Data\PDB_Files
+START /WAIT python ExtractChains_V2.py E:\NSERC_Data\PeriodicTable.txt E:\NSERC_Data\Extracted_Chains E:\NSERC_Data\PDB_Files
+START /WAIT python HeteromerComparisons_V4.py E:\NSERC_Data\PDB_Files E:\NSERC_Data\Extracted_Chains E:\NSERC_Data\PeriodicTable.txt E:\NSERC_Data\HeteromerAlignments_WithTranslations.txt
+START /WAIT python RandomComparisons.py E:\NSERC_Data\PeriodicTable.txt E:\NSERC_Data\PDB_Files E:\NSERC_Data\Extracted_Chains E:\NSERC_Data\RandomAlignments.txt
+python "C:\Users\alexp\Desktop\School\3rd_Year\NSERC\StructuralSequenceSimilarity\Helpful_Files\Marchant_2019_ParalogousHeteromers.csv" "C:\Users\alexp\Desktop\School\3rd_Year\NSERC\StructuralSequenceSimilarity\Helpful_Files\Conversion_Table.csv" non.txt E:\NSERC_Data\Labelled_HET_Dataset\HET_Complexes "E:\NSERC_Data\Labelled_HET_Dataset\Paralogous_Chains.txt"
+python ExtractChains_ForLabelledDataset.py "E:\NSERC_Data\Labelled_HET_Dataset\Paralogous_Chains.txt" E:\NSERC_Data\Labelled_HET_Dataset\Paralogous_Chains E:\NSERC_Data\Labelled_HET_Dataset\HET_Complexes
+CALL pause

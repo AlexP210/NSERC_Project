@@ -1,0 +1,3 @@
+
+Usage: $ python C:\Users\alexp\Desktop\School\3rd_Year\NSERC\StructuralSequenceSimilarity\Scripts\DataProcessing\ScrapePeriodicTable_V2.py <url> <chains.txt> <strict>
+

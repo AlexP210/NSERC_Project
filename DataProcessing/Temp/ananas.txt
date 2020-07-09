@@ -1,0 +1,52 @@
+************************************************************************
+*----------------------------------------------------------------------*
+*------------------------------ AnAnaS : ------------------------------*
+*------------------Analytical Analyzer of Symmetries-------------------*
+*--------------Authors: Guillaume Pages & Sergei Grudinin--------------*
+*--Ref 1: Analytical symmetry detection in cyclic protein assemblies.--*
+*-----------Ref 2: Analytical symmetry detection in dihedral-----------*
+*--------------------and cubic protein assemblies.---------------------*
+*-------Copyright (c): Nano-D team, Inria/CNRS Grenoble, France -------*
+*---------------------------- 2014 - 2018.-----------------------------*
+*------------------ e-mail: sergei.grudinin@inria.fr-------------------*
+*----------------------------------------------------------------------*
+************************************************************************
+=======================Parsing the Command Line=======================
+Parsed symmetry groups................................................ : c2,d2
+Started on............................................................ : Fri Jun 12 14:08:24 2020
+Command-line arguments................................................ : ananas E:\NSERC_Data\CyclicHeterotetramers_C2D2\Selected_Biological_Assemblies\6hbw.cif -C 100 c2 d2 
+==========================Reading Input file==========================
+Trying to interpret as a CIF file..................................... : E:\NSERC_Data\CyclicHeterotetramers_C2D2\Selected_Biological_Assemblies\6hbw.cif
+Number of chains read................................................. : 4
+Number of atoms read.................................................. : 4935
+=====================Sequence alignment of chains=====================
+==========================Detecting Symmetry==========================
+Cutoff for symmetry emasure........................................... : 100 A
+Symmetry group : d2 
+   RMSD RMSD_R RMSD_T RMSD_Z RADGYR ORDER  AXIS X  AXIS Y  AXIS Z  CENTER X  CENTER Y  CENTER Z
+  2.326  1.443  1.205  1.370 17.098     2  -0.986   0.152  -0.064    23.742    -0.033    42.864
+  0.282  0.167  0.164  0.157 20.187     2  -0.152  -0.988  -0.011    23.742    -0.033    42.864
+  2.325  1.195  1.229  1.571 19.829     2  -0.064  -0.001   0.998    23.742    -0.033    42.864
+Average RMSD : 1.905855 
+Symmetry group : c2 
+   RMSD RMSD_R RMSD_T RMSD_Z RADGYR ORDER  AXIS X  AXIS Y  AXIS Z  CENTER X  CENTER Y  CENTER Z
+  2.227  1.415  1.118  1.306 17.263     2   0.986  -0.152   0.063    23.744    -0.003    42.867
+Average RMSD : 2.226748 
+Symmetry group : c2 
+   RMSD RMSD_R RMSD_T RMSD_Z RADGYR ORDER  AXIS X  AXIS Y  AXIS Z  CENTER X  CENTER Y  CENTER Z
+  0.284  0.166  0.167  0.159 20.428     2   0.152   0.988   0.011    23.718    -0.205    42.864
+Average RMSD : 0.283849 
+Symmetry group : c2 
+   RMSD RMSD_R RMSD_T RMSD_Z RADGYR ORDER  AXIS X  AXIS Y  AXIS Z  CENTER X  CENTER Y  CENTER Z
+  2.226  1.135  1.094  1.573 19.637     2   0.064   0.001  -0.998    23.744    -0.003    42.867
+Average RMSD : 2.226488 
+======================================================================
+============================== Timing : ==============================
+======================================================================
+Parsing the Command Line.............................................. : 0.00188 s
+Reading Input file.................................................... : 0.0381294 s
+Sequence alignment of chains.......................................... : 0.0122495 s
+Detecting Symmetry.................................................... : 0.0335057 s
+......................................................................
+Total time : ......................................................... : 0.0857654 s
+======================================================================

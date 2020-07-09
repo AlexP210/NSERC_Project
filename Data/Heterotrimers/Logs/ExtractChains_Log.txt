@@ -1,0 +1,4 @@
+1. EXTRACTING CHAINS
+Squalus_acanthias
+Thermus_thermophilus
+Sporosarcina_pasteurii

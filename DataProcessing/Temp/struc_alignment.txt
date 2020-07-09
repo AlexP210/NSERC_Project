@@ -1,0 +1,23 @@
+
+ *********************************************************************
+ * TM-align (Version 20190822): protein structure alignment          *
+ * References: Y Zhang, J Skolnick. Nucl Acids Res 33, 2302-9 (2005) *
+ * Please email comments and suggestions to yangzhanglab@umich.edu   *
+ *********************************************************************
+
+Name of Chain_1: E:\NSERC_Data\Heterotrimers_C3\Extracted_Chains\1e14_M.ent (to be superimposed onto Chain_2)
+Name of Chain_2: E:\NSERC_Data\Heterotrimers_C3\Extracted_Chains\1ds8_H.ent
+Length of Chain_1: 302 residues
+Length of Chain_2: 246 residues
+
+Aligned length= 125, RMSD=   6.43, Seq_ID=n_identical/n_aligned= 0.088
+TM-score= 0.24184 (if normalized by length of Chain_1, i.e., LN=302, d0=6.38)
+TM-score= 0.27839 (if normalized by length of Chain_2, i.e., LN=246, d0=5.81)
+(You should use TM-score normalized by length of the reference structure)
+
+(":" denotes residue pairs of d <  5.0 Angstrom, "." denotes other aligned residues)
+AEYQNI---------FSQVQV-RGPADLGMTEDVNLANRSGVGP-FSTLLGWFGN-----------------------AQLGPIYL--GSLGVLS---LFSGLMWFFTIGIWFWYQAGWNPAVFLRDLFFFSLEPPAPEYGLSFAAPLKEGGLWLIASFF---MFVAVWSWWGRTYLRAQALGM------------------------------------------GKHTAWAFLS-----------AIWLWM--------VLGFIRPILMGSWSE----------------AVPYGIF--SHLDWTNNFSLVHGNLRYNPFHDLSIAFLYGSALLFAMHGATILAVSRFGGERELEQIADRGTAAERAALFWRWTMGFNATMEGIHRWAIWMAVLVTLTGGIGILLSGTVVDNWYVWGQNHG
+               .....  .                      ..::....                         ...::::.  .:...     ....::  :::  ::  ::. . :: :::: :::.::               .  .:.:.     ...:..:. :: :: :::                                             .::..:..:.           .::...        .....::.: ...                  ....     ...::.:::  ::::  .                                                                                              ::::      
+------DLASLAIYSFWIFL-AG---------------------LIYYLQTEN--MREGYPLENEDGTPAANQGPFPLPKPKTFILPHGRGTL--TVPGPESED--RPI--AL--ART-A-VS-EGFP-HAPTGD---------------P--MKDGV--GPASWVARRDL-PE-LD-GHG---HNKIKPMKAAAGFHVSAGKNPIGLPVRGCDLEIAGKVVDIWVDIPEQMARFLEVELKDGSTRLLPMQMVKVQSNRVHVNALSSDLF-AGI--PTIKSPTEVTLLEEDKICGY---VAGGLMYAAPK--RKSV--V----------------------------------------------------------------------------------------------AAML------
+
+Total CPU time is  0.81 seconds

@@ -1,0 +1,336 @@
+1. CLEANING STRUCTURES
+Squalus_acanthias
+     3a3y
+     2zxe
+Thermus_thermophilus
+     3qjv
+     3s38
+     2qpe
+     3eh5
+     1ehk
+     3s39
+     3qju
+     3s3d
+     3s3a
+     3s33
+     3eh3
+     1xme
+     3s8f
+     3bvd
+     2yev
+     3qjq
+     3qjs
+     3s3c
+     3qjt
+     3s3b
+     2qpd
+     4fa7
+     3qjr
+     3s8g
+     3eh4
+Sporosarcina_pasteurii
+     1ie7
+     2ubp
+     3ubp
+     4ubp
+Saccharolobus_solfataricus
+     2ix2
+     3cw2
+     2hik
+     3fds
+     2qmu
+     2hii
+     2izo
+     2nti
+Placopecten_magellanicus
+     3ts5
+     3tuy
+     3pn7
+     2ec6
+     2os8
+     2otg
+Methylococcus_capsulatus
+     1yew
+Yersinia_pestis
+     2p58
+     1xkp
+Hungateiclostridium_thermocellum
+     4fl4
+Homo_sapiens
+     4dep
+     3hus
+     1pk6
+     1lm8
+     1rf1
+     3rpg
+     3s5l
+     2oyh
+     3a1j
+     3bt1
+     2izv
+     3fex
+     3zrc
+     2qfa
+     3kyc
+     1u6g
+     3se4
+     1r4n
+     2jg9
+     3egx
+     1ltj
+     2hpc
+     3gzn
+     3c5w
+     2hod
+     2c9w
+     2h32
+     1j1d
+     3ztc
+     2jg8
+     3fey
+     3ojy
+     3dbh
+     2ass
+     4dck
+     3qaz
+     3bpn
+     1jsu
+     3bpl
+     1j1e
+     1re4
+     3p56
+     3oj4
+     3puf
+     3o4o
+     3ztd
+     1xwd
+     2dsq
+     3dqv
+     1y8r
+     4doh
+     1vcb
+     4ay9
+     2aze
+     1nfi
+     4dhz
+     3von
+     3r45
+     2rgn
+     1r4m
+     1rf0
+     3se3
+     3dbr
+     1re3
+     1lt9
+     2wtk
+     1lqb
+     3jvz
+     2wnu
+     2h43
+     2hlo
+     2ast
+     3zun
+     2dyp
+     2nup
+     2oyi
+     3bpo
+     3dbl
+     2ffd
+     3jw0
+     3ggr
+     3qwr
+     3vh8
+     2nut
+     2puq
+     3u88
+     2q9i
+     3zrf
+     2wnv
+     2iy0
+Argopecten_irradians
+     1b7t
+     1s5g
+     1sr6
+     1kk8
+     1kqm
+     1wdc
+     1scm
+     1qvi
+     1l2o
+     3jtd
+     1kk7
+     3jvt
+     1kwo
+Kluyveromyces_lactis
+     2yfv
+Physarum_polycephalum
+     2bl0
+Pseudomonas_mendocina
+     3dhg
+Saccharomyces_cerevisiae
+     2qtv
+     2z5c
+     3u28
+     2caz
+     3rrm
+     3te5
+     4dgw
+     2f66
+     3fwb
+     3tdh
+     3t5v
+     3t4n
+     3iko
+     2wp8
+     3m1i
+     2qlv
+Mus_musculus
+     3p5j
+     3kio
+Methanocaldococcus_jannaschii
+     1rhz
+     1rh5
+Rattus_norvegicus
+     4eak
+     1ltx
+     1frt
+     4eal
+     3df0
+     3bow
+Pseudomonas_stutzeri
+     2rdb
+Alcaligenes_faecalis
+     2iaa
+     2h47
+Synechocystis_sp.
+     2pvg
+Escherichia_coli
+     3ir7
+     1y4z
+     1y5i
+     3rfz
+     1y5l
+     3ci0
+     3ir5
+     1q16
+     1ze3
+     3bwu
+     1y5n
+     3ir6
+     1siw
+Pyrococcus_furiosus
+     2ey4
+Sus_scrofa
+     3n23
+Klebsiella_pneumoniae
+     1mmf
+Daboia_siamensis
+     2e3x
+Bos_taurus
+     3pvw
+     1got
+     1a0r
+     3psc
+     2cly
+     3pvu
+     1tco
+     1omw
+     1fqj
+Rhodobacter_sphaeroides
+     1rg5
+     2bns
+     1jgy
+     3dtr
+     2rcr
+     1ds8
+     1z9j
+     2uws
+     1mps
+     1z9k
+     3dsy
+     2boz
+     3duq
+     1qov
+     1pcr
+     1jgx
+     3du3
+     1rgn
+     3dts
+     2jj0
+     4rcr
+     1m3x
+     1e6d
+     2gnu
+     1umx
+     1ry5
+     1aig
+     1e14
+     1k6l
+     1jgw
+     3dta
+     1fnq
+     1yf6
+     1kby
+     1k6n
+     1jgz
+     1pss
+     2uwv
+     1dv6
+     1rzz
+     1pst
+     1f6n
+     3zum
+     1rzh
+     1yst
+     1ogv
+     2uxl
+     2bnp
+     3v3y
+     1fnp
+     1dv3
+     3v3z
+     2jiy
+     1s00
+     3du2
+     1rvj
+     2wx5
+     1jh0
+     2gmr
+     2uwt
+     1aij
+     3zuw
+     2uxm
+Aggregatibacter_actinomycetemcomitans
+     2f2f
+Drosophila_melanogaster
+     1rk8
+     2x1g
+Aquifex_aeolicus
+     3h0m
+     3h0r
+     3h0l
+[Haemophilus]_ducreyi
+     1sr4
+Schizosaccharomyces_pombe
+     2qrd
+     4aez
+     2qrc
+     2qre
+     2qr1
+Aromatoleum_aromaticum
+     2ivf
+Staphylococcus_aureus
+     2g5i
+     2g5h
+     2f2a
+     2dqn
+     2df4
+Paracoccus_denitrificans
+     1pby
+     1jju
+Gallus_gallus
+     1ytz
+     1yv0
+Pseudomonas_putida
+     1jmz
+     1jmx
