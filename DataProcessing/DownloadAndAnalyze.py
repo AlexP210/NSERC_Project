@@ -7,10 +7,10 @@ DataProcessing_dir = f"{os.path.dirname(__file__)}"
 # Processing Scripts
 ScrapePeriodicTable = os.path.join(DataProcessing_dir, "ScrapePeriodicTable_V2.py")
 DownloadCIFs = os.path.join(DataProcessing_dir, "DownloadCIFs.py")
-CleanStructures = os.path.join(DataProcessing_dir, "CleanStructures.py")
 RemoveDuplicates = os.path.join(DataProcessing_dir, "RemoveDuplicates.py")
 BiologicalAssemblies = os.path.join(DataProcessing_dir, "BiologicalAssemblies.py")
 PickRepresentativeAssembly = os.path.join(DataProcessing_dir, "PickRepresentativeAssembly.py")
+CleanStructures = os.path.join(DataProcessing_dir, "CleanStructures.py")
 ExtractChains = os.path.join(DataProcessing_dir, "ExtractChains_V3.py")
 CompareChains = os.path.join(DataProcessing_dir, "CompareChains.py")
 RemoveRedundantChains = os.path.join(DataProcessing_dir, "RemoveRedundantChains.py")
@@ -50,11 +50,6 @@ if __name__ == "__main__":
 #    call = f"python {DownloadCIFs} {os.path.join(cwd, 'IDs.txt')} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'DownloadCIFs_Log.txt')}"
 #    os.system(call)
 
-    # Clean the PDBs
-    print("Cleaning structures ...")
-    call = f"python {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
-    os.system(call)
-
     # Remove the duplicated PDBs
     print("Removing Duplicates ...")
     call = f"python {RemoveDuplicates} {os.path.join(cwd, 'Data')} 1 1 > {os.path.join(logs_dir, 'RemoveDuplicates_Log.txt')}"
@@ -68,6 +63,11 @@ if __name__ == "__main__":
     # Pick the representative biological assembly for each PDB
     print("Picking Representative Assemblies ...")
     call = f"python {PickRepresentativeAssembly} {os.path.join(cwd, 'Data')} {n_monomers} > {os.path.join(logs_dir, 'PickRepresentativeAssembly_Log.txt')}"
+    os.system(call)
+
+    # Clean the PDBs
+    print("Cleaning structures ...")
+    call = f"python {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
     os.system(call)
 
     # Extract the chains

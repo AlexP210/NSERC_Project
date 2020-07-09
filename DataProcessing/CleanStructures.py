@@ -18,7 +18,7 @@ if __name__ == "__main__":
         print(species_folder)
         # Set the directories
         species_directory = os.path.join(root_directory, species_folder)
-        dirty_structures_directory = os.path.join(species_directory, "Structure_Downloads")
+        dirty_structures_directory = os.path.join(species_directory, "Selected_Biological_Assemblies")
         clean_structures_directory = os.path.join(species_directory, "Clean_Structures")
         if not os.path.exists(clean_structures_directory): os.mkdir(clean_structures_directory)
         # Go through the dirty ones, and save to clean
