@@ -1,9 +1,0 @@
-Squalus_acanthias
-     Saving CSV
-Thermus_thermophilus
-     Saving CSV
-Sporosarcina_pasteurii
-     Saving CSV
-Saccharolobus_solfataricus
-     Saving CSV
-Placopecten_magellanicus

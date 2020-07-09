@@ -1,6 +1,0 @@
-1. SELECTING ASSEMBLIES
-Squalus_acanthias
-    Saving selected assemblies ...
-Thermus_thermophilus
-    Saving selected assemblies ...
-Sporosarcina_pasteurii
