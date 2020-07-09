@@ -17,5 +17,6 @@ if __name__ == "__main__":
             if not folder == "Structure_Downloads":
                 for filename in os.listdir(directory):
                     filepath = os.path.join(directory, filename)
+                    print(filepath)
                     os.remove(filepath)
                 os.rmdir(directory)
