@@ -50,7 +50,7 @@ if __name__ == "__main__":
     print("1. REMOVING DUPLICATES")
     for species_folder in os.listdir(root_directory):
         print(f"{species_folder}")
-        cif_directory = os.path.join(root_directory, species_folder, "Clean_Structures")
+        cif_directory = os.path.join(root_directory, species_folder, "Structure_Downloads")
         temp_path = os.path.join(root_directory, species_folder, "_Temp")
         pdb_list = []
         sequence_cache = {}
