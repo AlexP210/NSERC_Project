@@ -15,5 +15,5 @@ if __name__ == "__main__":
         species_directory = os.path.join(root_directory, species_folder)
         for folder in os.listdir(species_directory):
             directory = os.path.join(species_directory, folder)
-            if folder != "Structure_Downloads":
+            if os.path.isdir(directory) and folder != "Structure_Downloads":
                 shutil.rmtree(directory)
