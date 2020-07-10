@@ -10,6 +10,7 @@ import os.path
 import os
 import sys
 from Bio.SubsMat import MatrixInfo as matlist
+from Bio.Align import substitution_matrices
 from Bio.pairwise2 import align, format_alignment
 import numpy as np
 from math import atan2, acos
@@ -164,7 +165,8 @@ def calculate_percent_identity(pdb_1_name, pdb_1_path, pdb_2_name, pdb_2_path, s
     :rtype: Tuple<float>
     """
     # Create the aligner object
-    aligner = Align.PairwiseAligner(substitution_matrix = matlist.pam60, open_gap_score=-5, extend_gap_score=-1)
+    pam60 = substitution_matrices.load("PAM70")
+    aligner = Align.PairwiseAligner(substitution_matrix = pam60, open_gap_score=-5, extend_gap_score=-1)
     # Get the sequences
     sequence_a = load_sequence(pdb_1_path)
     sequence_b = load_sequence(pdb_2_path)
