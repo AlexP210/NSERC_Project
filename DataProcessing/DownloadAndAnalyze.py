@@ -21,8 +21,8 @@ CompareInterfaces = os.path.join(DataProcessing_dir, "CompareInterfaces.py")
 
 # Main
 if __name__ == "__main__":
-    usage = f"\n$ python {os.path.basename(__file__)} <Periodic Table URL> <Current Working Directory> <Number of Monomers> <Max Sequence Similarity> <Max Structural Similarity> <Distance Cutoff> <Symmetries>\n"
-    if len(sys.argv) < 7:
+    usage = f"\n$ python {os.path.basename(__file__)} <Periodic Table URL> <Current Working Directory> <Number of Monomers> <Max Sequence Similarity> <Max Structural Similarity> <Distance Cutoff> <Symmetries> <Testing>\n"
+    if len(sys.argv) < 8:
         print(usage)
         sys.exit()
     url = sys.argv[1]
@@ -32,7 +32,8 @@ if __name__ == "__main__":
     max_sequence_similarity = sys.argv[4]
     max_structural_similarity = sys.argv[5]
     distance_cutoff = float(sys.argv[6])
-    symmetry_groups = " ".join(sys.argv[7:])
+    symmetry_groups = " ".join(sys.argv[7:-1])
+    testing = bool(sys.argv[-1])
 
     # Activate the environment, get the cwd, set up folder for logs
     print("Initializing ...")
@@ -45,60 +46,84 @@ if __name__ == "__main__":
 #    call = f"python {ScrapePeriodicTable} '{url}' {os.path.join(cwd, 'IDs.txt')} true > {os.path.join(logs_dir, 'ScrapePeriodicTable_Log.txt')}"
 #    os.system(call)
 
+#    if testing: input("Waiting ...")
+
 #    # Download the PDBs
 #    print("Downloading CIF Files ...")
 #    call = f"python {DownloadCIFs} {os.path.join(cwd, 'IDs.txt')} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'DownloadCIFs_Log.txt')}"
 #    os.system(call)
+
+#    if testing: input("Waiting ...")
 
     # Remove the duplicated PDBs
     print("Removing Duplicates ...")
     call = f"python {RemoveDuplicates} {os.path.join(cwd, 'Data')} 1 1 > {os.path.join(logs_dir, 'RemoveDuplicates_Log.txt')}"
     os.system(call)
 
+    if testing: input("Waiting ...")
+
     # Make the biological assemblies
     print("Forming Biological Assemblies ...")
     call = f"python {BiologicalAssemblies} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'BiologicalAssemblies_Log.txt')}"
     os.system(call)
+
+    if testing: input("Waiting ...")
 
     # Pick the representative biological assembly for each PDB
     print("Picking Representative Assemblies ...")
     call = f"python {PickRepresentativeAssembly} {os.path.join(cwd, 'Data')} {n_monomers} > {os.path.join(logs_dir, 'PickRepresentativeAssembly_Log.txt')}"
     os.system(call)
 
+    if testing: input("Waiting ...")
+
     # Clean the PDBs
     print("Cleaning structures ...")
     call = f"python {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
     os.system(call)
+
+    if testing: input("Waiting ...")
 
     # Extract the chains
     print("Extracting Chains ...")
     call = f"python {ExtractChains} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'ExtractChains_Log.txt')}"
     os.system(call)
 
+    if testing: input("Waiting ...")
+
     # Compare the chains
     print("Comparing Chains ...")
     call = f"python {CompareChains} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareChains_Log.txt')}"
     os.system(call)
+
+    if testing: input("Waiting ...")
 
     # Filter Redundant Chains
     print("Filtering Redundant Chains ...")
     call = f"python {RemoveRedundantChains} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantChains_Log.txt')}"
     os.system(call)
 
+    if testing: input("Waiting ...")
+
     # Random Comparisons
     print("Comparing random chains ...")
     call = f"python {RandomComparisons} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
     os.system(call)
+
+    if testing: input("Waiting ...")
 
     # Find the significant pairs
     print("Finding significant heteromers ...")
     call = f"python {FindHomologs} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'FindingSignificantHeteromers_Log.txt')}"
     os.system(call)
 
+    if testing: input("Waiting ...")
+
     # Extract interface
     print("Extracting interfaces ...")
     call = f"python {ExtractInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'ExtractInterfaces_Log.txt')}"
     os.system(call)
+
+    if testing: input("Waiting ...")
 
     # Compare interface
     print("Comparing interfaces ...")

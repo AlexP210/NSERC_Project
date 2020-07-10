@@ -44,18 +44,19 @@ if __name__ == "__main__":
     #   2. Were not previously compared
     #   3. Are not identical
     #   4. Have index as multiple of 500
-    for species_folder in os.listdir(root_directory):
 
-        chains_directory = os.path.join(root_directory, species_folder, "NonRedundant_Chains")
-        assemblies_directory = os.path.join(root_directory, species_folder, "Selected_Biological_Assemblies")
-        temp_path = os.path.join(root_directory, species_folder, "_Temp")
-        output_file_path = os.path.join(root_directory, species_folder, "RandomComparisons.csv")
+    chains_directory = os.path.join(root_directory, "..", "NonRedundant_Chains")
+    output_file_path = os.path.join(root_directory, "..", "RandomComparisons.csv")
+    with open(output_file_path, "w") as output_file:
+        for species_folder in os.listdir(root_directory):
+            assemblies_directory = os.path.join(root_directory, species_folder, "Selected_Biological_Assemblies")
+            temp_path = os.path.join(root_directory, species_folder, "_Temp")
+            
 
-        chain_files = os.listdir(chains_directory)
-        chain_names = [cn.split(".")[0] for cn in chain_files]
-        counter = 0
-        pairings_examined = 0
-        with open(output_file_path, "w") as output_file:
+            chain_files = os.listdir(chains_directory)
+            chain_names = [cn.split(".")[0] for cn in chain_files]
+            counter = 0
+            pairings_examined = 0
             output_file.write("PDB_ID_1,PDB_ID_2,Chain_1,Chain_2,Chain_1_Length,Chain_2_Length,Alignment_Score,PID,TM\n")
             for chain_idx_a in range(len(chain_names)):
                 for chain_idx_b in range(chain_idx_a):

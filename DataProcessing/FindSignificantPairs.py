@@ -16,23 +16,26 @@ if __name__ == "__main__":
     root_directory = sys.argv[1]
 
 
+    # Read in the random comparisons
+    random_comparisons_path = os.path.join(root_directory, "..", "RandomComparisons.csv")
+    random_comparisons = pd.read_csv(random_comparisons_path)
+     # Get the CDFs from the random comparisons
+    print("     Calculating CDFs")
+    cdf_AlignmentScore = ml.create_cdf(random_comparisons["Alignment_Score"])
+    cdf_PercentIdentity = ml.create_cdf(random_comparisons["PID"])
+    cdf_TMScore = ml.create_cdf(random_comparisons["TM"])
+    
     for species_folder in os.listdir(root_directory):
         print(species_folder)
         # Set paths for this species folder
         species_directory = os.path.join(root_directory, species_folder)
-        random_comparisons_path = os.path.join(species_directory, "RandomComparisons.csv")
+        
         heteromer_comparisons_path = os.path.join(species_directory, "Chains.csv")
 
         # Import the data
-        random_comparisons = pd.read_csv(random_comparisons_path)
         heteromer_comparisons = pd.read_csv(heteromer_comparisons_path)
 
         if len(heteromer_comparisons.index) > 0:
-            # Get the CDFs from the random comparisons
-            print("     Calculating CDFs")
-            cdf_AlignmentScore = ml.create_cdf(random_comparisons["Alignment_Score"])
-            cdf_PercentIdentity = ml.create_cdf(random_comparisons["PID"])
-            cdf_TMScore = ml.create_cdf(random_comparisons["TM"])
 
             # Go through each of the heteromer alignments, and find the probability of getting something as significant, or more
             print("     Calculating P-Values")

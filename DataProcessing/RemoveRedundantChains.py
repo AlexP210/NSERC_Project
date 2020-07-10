@@ -38,15 +38,15 @@ if __name__ == "__main__":
     max_sequence_similarity = float(sys.argv[2])
     max_structure_similarity = float(sys.argv[3])
 
+    sequence_cache = {}
+    pdb_list = []
+    nonredundant_chains_directory = os.path.join(root_directory, "..", "NonRedundant_Chains")
+    if not os.path.exists(nonredundant_chains_directory): os.mkdir(nonredundant_chains_directory)
     # Go through the extracted chains for each species, and remove chains that are too similar to be random
     for species_folder in os.listdir(root_directory):
         species_directory = os.path.join(root_directory, species_folder)
         redundant_chains_directory = os.path.join(species_directory, "Extracted_Chains")
-        nonredundant_chains_directory = os.path.join(species_directory, "NonRedundant_Chains")
-        if not os.path.exists(nonredundant_chains_directory): os.mkdir(nonredundant_chains_directory)
 
-        sequence_cache = {}
-        pdb_list = []
         for cif_filename in os.listdir(redundant_chains_directory):
             path = os.path.join(redundant_chains_directory, cif_filename)
             if has_duplicate(path, pdb_list, max_sequence_similarity, max_structure_similarity):
