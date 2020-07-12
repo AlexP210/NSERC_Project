@@ -72,8 +72,6 @@ if __name__ == "__main__":
                         print(symmetry_rmsds)
                         for symmetry_rmsd in symmetry_rmsds:
                             line += f", {symmetry_rmsd}"
-                        print("    "+line)
-                        print()
                         output_file.write(line + "\n")
 
                     
