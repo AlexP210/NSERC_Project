@@ -90,19 +90,19 @@ if __name__ == "__main__":
 
     # if testing: input("Waiting ...")
 
-    # Compare the chains
-    print("Comparing Chains ...")
-    call = f"python {CompareChains} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareChains_Log.txt')}"
-    os.system(call)
+    # # Compare the chains
+    # print("Comparing Chains ...")
+    # call = f"python {CompareChains} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareChains_Log.txt')}"
+    # os.system(call)
 
-    if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
-    # Filter Redundant Chains
-    print("Filtering Redundant Chains ...")
-    call = f"python {RemoveRedundantChains} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantChains_Log.txt')}"
-    os.system(call)
+    # # Filter Redundant Chains
+    # print("Filtering Redundant Chains ...")
+    # call = f"python {RemoveRedundantChains} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantChains_Log.txt')}"
+    # os.system(call)
 
-    if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
     # Random Comparisons
     print("Comparing random chains ...")

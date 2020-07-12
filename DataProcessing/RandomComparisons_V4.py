@@ -48,7 +48,7 @@ if __name__ == "__main__":
     chains_directory = os.path.join(root_directory, "..", "NonRedundant_Chains")
     output_file_path = os.path.join(root_directory, "..", "RandomComparisons.csv")
     with open(output_file_path, "w") as output_file:
-        temp_path = os.path.join(root_directory, "_Temp")
+        temp_path = os.path.join(root_directory, "..", "_Temp")
         if not os.path.exists(temp_path): os.mkdir(temp_path)
 
         # Get the list of chains that we need to compare
