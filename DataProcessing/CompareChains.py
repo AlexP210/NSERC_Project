@@ -69,6 +69,7 @@ if __name__ == "__main__":
                         symmetry_rmsds = calculate_symmetry_rmsd(complex_path, symmetry_groups, os.path.join(temp_dir, "AnAnaS_Output.txt"))
                         # Save the data
                         line = f"{pdb_id},{chain_letters[sequence_a_idx]},{chain_letters[sequence_b_idx]},{len(load_sequence(chain_a_path))},{len(load_sequence(chain_b_path))},{nw_score},{percent_identity},{structure_similarity}"
+                        print(symmetry_rmsds)
                         for symmetry_rmsd in symmetry_rmsds:
                             line += f", {symmetry_rmsd}"
                         print("    "+line)
