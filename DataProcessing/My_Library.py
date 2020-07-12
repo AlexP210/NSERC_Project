@@ -51,6 +51,7 @@ def calculate_symmetry_rmsd(pdb_filepath, symmetry_groups, temp_path):
             if line[:12] == "Average RMSD" and next_rmsd:
                 rmsds[next_group] = float(line.split(" : ")[-1])
     os.remove(temp_path)
+    print([rmsds[group] for group in symmetry_groups])
     return [rmsds[group] for group in symmetry_groups]
 
 def calculate_rotation_angles(path_to_matrix):

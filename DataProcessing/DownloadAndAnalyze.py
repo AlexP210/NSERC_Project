@@ -55,40 +55,40 @@ if __name__ == "__main__":
 
 #    if testing: input("Waiting ...")
 
-    # Remove the duplicated PDBs
-    print("Removing Duplicates ...")
-    call = f"python {RemoveDuplicates} {os.path.join(cwd, 'Data')} 1 1 > {os.path.join(logs_dir, 'RemoveDuplicates_Log.txt')}"
-    os.system(call)
+    # # Remove the duplicated PDBs
+    # print("Removing Duplicates ...")
+    # call = f"python {RemoveDuplicates} {os.path.join(cwd, 'Data')} 1 1 > {os.path.join(logs_dir, 'RemoveDuplicates_Log.txt')}"
+    # os.system(call)
 
-    if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
-    # Make the biological assemblies
-    print("Forming Biological Assemblies ...")
-    call = f"python {BiologicalAssemblies} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'BiologicalAssemblies_Log.txt')}"
-    os.system(call)
+    # # Make the biological assemblies
+    # print("Forming Biological Assemblies ...")
+    # call = f"python {BiologicalAssemblies} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'BiologicalAssemblies_Log.txt')}"
+    # os.system(call)
 
-    if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
-    # Pick the representative biological assembly for each PDB
-    print("Picking Representative Assemblies ...")
-    call = f"python {PickRepresentativeAssembly} {os.path.join(cwd, 'Data')} {n_monomers} > {os.path.join(logs_dir, 'PickRepresentativeAssembly_Log.txt')}"
-    os.system(call)
+    # # Pick the representative biological assembly for each PDB
+    # print("Picking Representative Assemblies ...")
+    # call = f"python {PickRepresentativeAssembly} {os.path.join(cwd, 'Data')} {n_monomers} > {os.path.join(logs_dir, 'PickRepresentativeAssembly_Log.txt')}"
+    # os.system(call)
 
-    if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
-    # Clean the PDBs
-    print("Cleaning structures ...")
-    call = f"python {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
-    os.system(call)
+    # # Clean the PDBs
+    # print("Cleaning structures ...")
+    # call = f"python {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
+    # os.system(call)
 
-    if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
-    # Extract the chains
-    print("Extracting Chains ...")
-    call = f"python {ExtractChains} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'ExtractChains_Log.txt')}"
-    os.system(call)
+    # # Extract the chains
+    # print("Extracting Chains ...")
+    # call = f"python {ExtractChains} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'ExtractChains_Log.txt')}"
+    # os.system(call)
 
-    if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
     # Compare the chains
     print("Comparing Chains ...")
