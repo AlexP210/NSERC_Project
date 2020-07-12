@@ -44,7 +44,7 @@ def calculate_symmetry_rmsd(pdb_filepath, symmetry_groups, temp_path):
     with open(temp_path, "r") as ananas_output:
         for line in ananas_output:
             if line[:13] == "No symmetries":
-                return -1
+                return [-1]
             if line.split(" : ")[0] == "Symmetry group" and line.split(" : ")[-1][:2] in symmetry_groups:
                 next_rmsd = True
                 next_group = line.split(" : ")[-1][:2]
