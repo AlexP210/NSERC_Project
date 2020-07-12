@@ -12,7 +12,7 @@ if __name__ == "__main__":
     distance_cutoff = float(sys.argv[2])
 
     # Go through each species folder
-    for species_folder in os.listdir(root_directory)[:1]:
+    for species_folder in os.listdir(root_directory):
         print(species_folder)
         # Set the directories
         species_directory = os.path.join(root_directory, species_folder)

@@ -104,19 +104,19 @@ if __name__ == "__main__":
 
     # if testing: input("Waiting ...")
 
-    # Random Comparisons
-    print("Comparing random chains ...")
-    call = f"python {RandomComparisons} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
-    os.system(call)
+    # # Random Comparisons
+    # print("Comparing random chains ...")
+    # call = f"python {RandomComparisons} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
+    # os.system(call)
 
-    if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
-    # Find the significant pairs
-    print("Finding significant heteromers ...")
-    call = f"python {FindHomologs} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'FindingSignificantHeteromers_Log.txt')}"
-    os.system(call)
+    # # Find the significant pairs
+    # print("Finding significant heteromers ...")
+    # call = f"python {FindHomologs} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'FindingSignificantHeteromers_Log.txt')}"
+    # os.system(call)
 
-    if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
     # Extract interface
     print("Extracting interfaces ...")
@@ -128,5 +128,6 @@ if __name__ == "__main__":
     # Compare interface
     print("Comparing interfaces ...")
     call = f"python {CompareInterfaces} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareInterfaces_Log.txt')}"
+    os.system(call)
 
     print("Done")
