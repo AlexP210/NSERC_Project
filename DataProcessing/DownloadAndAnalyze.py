@@ -123,7 +123,7 @@ if __name__ == "__main__":
     call = f"python {ExtractInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'ExtractInterfaces_Log.txt')}"
     os.system(call)
 
-    if testing: input("Waiting ...")
+    #if testing: input("Waiting ...")
 
     # Compare interface
     print("Comparing interfaces ...")
