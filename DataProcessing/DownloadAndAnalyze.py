@@ -20,7 +20,7 @@ ExtractInterfaces = os.path.join(DataProcessing_dir, "ExtractInterfaces.py")
 CompareInterfaces = os.path.join(DataProcessing_dir, "CompareInterfaces.py")
 
 def nohupify(call):
-    if sys.platform in ("linux", "linux2"):
+    if sys.platform in ("linux", "linux2") and False:
         return "nohup " + call + " &"
     else: return call
 
