@@ -43,91 +43,91 @@ if __name__ == "__main__":
 
 #    # Scrape the periodic table
 #    print("Scraping Periodic Table ...")
-#    call = f"python {ScrapePeriodicTable} '{url}' {os.path.join(cwd, 'IDs.txt')} true > {os.path.join(logs_dir, 'ScrapePeriodicTable_Log.txt')}"
+#    call = f"python -u {ScrapePeriodicTable} '{url}' {os.path.join(cwd, 'IDs.txt')} true > {os.path.join(logs_dir, 'ScrapePeriodicTable_Log.txt')}"
 #    os.system(call)
 
 #    if testing: input("Waiting ...")
 
 #    # Download the PDBs
 #    print("Downloading CIF Files ...")
-#    call = f"python {DownloadCIFs} {os.path.join(cwd, 'IDs.txt')} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'DownloadCIFs_Log.txt')}"
+#    call = f"python -u {DownloadCIFs} {os.path.join(cwd, 'IDs.txt')} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'DownloadCIFs_Log.txt')}"
 #    os.system(call)
 
 #    if testing: input("Waiting ...")
 
     # # Remove the duplicated PDBs
     # print("Removing Duplicates ...")
-    # call = f"python {RemoveDuplicates} {os.path.join(cwd, 'Data')} 1 1 > {os.path.join(logs_dir, 'RemoveDuplicates_Log.txt')}"
+    # call = f"python -u {RemoveDuplicates} {os.path.join(cwd, 'Data')} 1 1 > {os.path.join(logs_dir, 'RemoveDuplicates_Log.txt')}"
     # os.system(call)
 
     # if testing: input("Waiting ...")
 
     # # Make the biological assemblies
     # print("Forming Biological Assemblies ...")
-    # call = f"python {BiologicalAssemblies} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'BiologicalAssemblies_Log.txt')}"
+    # call = f"python -u {BiologicalAssemblies} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'BiologicalAssemblies_Log.txt')}"
     # os.system(call)
 
     # if testing: input("Waiting ...")
 
     # # Pick the representative biological assembly for each PDB
     # print("Picking Representative Assemblies ...")
-    # call = f"python {PickRepresentativeAssembly} {os.path.join(cwd, 'Data')} {n_monomers} > {os.path.join(logs_dir, 'PickRepresentativeAssembly_Log.txt')}"
+    # call = f"python -u {PickRepresentativeAssembly} {os.path.join(cwd, 'Data')} {n_monomers} > {os.path.join(logs_dir, 'PickRepresentativeAssembly_Log.txt')}"
     # os.system(call)
 
     # if testing: input("Waiting ...")
 
     # # Clean the PDBs
     # print("Cleaning structures ...")
-    # call = f"python {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
+    # call = f"python -u {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
     # os.system(call)
 
     # if testing: input("Waiting ...")
 
     # # Extract the chains
     # print("Extracting Chains ...")
-    # call = f"python {ExtractChains} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'ExtractChains_Log.txt')}"
+    # call = f"python -u {ExtractChains} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'ExtractChains_Log.txt')}"
     # os.system(call)
 
     # if testing: input("Waiting ...")
 
     # # Compare the chains
     # print("Comparing Chains ...")
-    # call = f"python {CompareChains} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareChains_Log.txt')}"
+    # call = f"python -u {CompareChains} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareChains_Log.txt')}"
     # os.system(call)
 
     # if testing: input("Waiting ...")
 
     # # Filter Redundant Chains
     # print("Filtering Redundant Chains ...")
-    # call = f"python {RemoveRedundantChains} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantChains_Log.txt')}"
+    # call = f"python -u {RemoveRedundantChains} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantChains_Log.txt')}"
     # os.system(call)
 
     # if testing: input("Waiting ...")
 
     # # Random Comparisons
     # print("Comparing random chains ...")
-    # call = f"python {RandomComparisons} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
+    # call = f"python -u {RandomComparisons} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
     # os.system(call)
 
     # if testing: input("Waiting ...")
 
     # # Find the significant pairs
     # print("Finding significant heteromers ...")
-    # call = f"python {FindHomologs} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'FindingSignificantHeteromers_Log.txt')}"
+    # call = f"python -u {FindHomologs} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'FindingSignificantHeteromers_Log.txt')}"
     # os.system(call)
 
     # if testing: input("Waiting ...")
 
     # Extract interface
     print("Extracting interfaces ...")
-    call = f"python {ExtractInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'ExtractInterfaces_Log.txt')}"
+    call = f"python -u {ExtractInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'ExtractInterfaces_Log.txt')}"
     os.system(call)
 
     #if testing: input("Waiting ...")
 
     # Compare interface
     print("Comparing interfaces ...")
-    call = f"python {CompareInterfaces} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareInterfaces_Log.txt')}"
+    call = f"python -u {CompareInterfaces} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareInterfaces_Log.txt')}"
     os.system(call)
 
     print("Done")
