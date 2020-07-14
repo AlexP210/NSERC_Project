@@ -86,53 +86,53 @@ if __name__ == "__main__":
 
 #     if testing: input("Waiting ...")
 
-#     # Clean the PDBs
-#     print("Cleaning structures ...")
-#     call = f"python -u {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
-#     call = nohupify(call)
-#     os.system(call)
+    # # Clean the PDBs
+    # print("Cleaning structures ...")
+    # call = f"python -u {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
+    # call = nohupify(call)
+    # os.system(call)
 
-#     if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
-#     # Extract the chains
-#     print("Extracting Chains ...")
-#     call = f"python -u {ExtractChains} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'ExtractChains_Log.txt')}"
-#     call = nohupify(call)
-#     os.system(call)
+    # Extract the chains
+    print("Extracting Chains ...")
+    call = f"python -u {ExtractChains} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'ExtractChains_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
-#     if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
-#     # Compare the chains
-#     print("Comparing Chains ...")
-#     call = f"python -u {CompareChains} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareChains_Log.txt')}"
-#     call = nohupify(call)
-#     os.system(call)
+    # Compare the chains
+    print("Comparing Chains ...")
+    call = f"python -u {CompareChains} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareChains_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
-#     if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
-#     # Filter Redundant Chains
-#     print("Filtering Redundant Chains ...")
-#     call = f"python -u {RemoveRedundantChains} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantChains_Log.txt')}"
-#     call = nohupify(call)
-#     os.system(call)
+    # Filter Redundant Chains
+    print("Filtering Redundant Chains ...")
+    call = f"python -u {RemoveRedundantChains} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantChains_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
-#     if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
-#     # Random Comparisons
-#     print("Comparing random chains ...")
-#     call = f"python -u {RandomComparisons} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
-#     call = nohupify(call)
-#     os.system(call)
+    # Random Comparisons
+    print("Comparing random chains ...")
+    call = f"python -u {RandomComparisons} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
-#     if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
-#     # Find the significant pairs
-#     print("Finding significant heteromers ...")
-#     call = f"python -u {FindHomologs} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'FindingSignificantHeteromers_Log.txt')}"
-#     call = nohupify(call)
-#     os.system(call)
+    # Find the significant pairs
+    print("Finding significant heteromers ...")
+    call = f"python -u {FindHomologs} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'FindingSignificantHeteromers_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
-#     if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
     # Extract interface
     print("Extracting interfaces ...")

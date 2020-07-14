@@ -136,13 +136,17 @@ def calculate_TMScore(pdb_1_path, pdb_2_path, temp_path, alignment = None):
     with open(temp_path, "r") as alignment_output:
         TM_scores = []
         for line in alignment_output:
-            if line[0:2] == "Al":
-                all_info = line.split(", ")
+            if line[0:2] == "Al" or line[0:5] == "ERROR":
+                # This is the case that the structure alignment failed (chain alignment is too small)
+                pass
             if line[0:2] == "TM":
                 TM_score_data = line.split("= ")
                 TM_score = float(TM_score_data[1].split(" ")[0])
                 TM_scores.append(TM_score)
-    TM_score = min(TM_scores)
+    if len(TM_scores) != 0:
+        TM_score = min(TM_scores)
+    else:
+        TM_score = -1
     os.remove(temp_path)
     return TM_score
 
@@ -165,8 +169,8 @@ def calculate_percent_identity(pdb_1_name, pdb_1_path, pdb_2_name, pdb_2_path, s
     :rtype: Tuple<float>
     """
     # Create the aligner object
-    pam60 = substitution_matrices.load("PAM70")
-    aligner = Align.PairwiseAligner(substitution_matrix = pam60, open_gap_score=-5, extend_gap_score=-1)
+    pam70 = substitution_matrices.load("PAM70")
+    aligner = Align.PairwiseAligner(substitution_matrix = pam70, open_gap_score=-5, extend_gap_score=-1)
     # Get the sequences
     sequence_a = load_sequence(pdb_1_path)
     sequence_b = load_sequence(pdb_2_path)

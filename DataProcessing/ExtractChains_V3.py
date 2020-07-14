@@ -75,7 +75,7 @@ if __name__ == "__main__":
     for species_fol in os.listdir(root_dir):
         print(species_fol)
         # Set the folder with the selected assemblies, and the folder to save the extracted chains
-        assembly_dir = os.path.join(root_dir, species_fol, "Selected_Biological_Assemblies")
+        assembly_dir = os.path.join(root_dir, species_fol, "Clean_Structures")
         chains_save_dir = os.path.join(root_dir, species_fol, "Extracted_Chains")
         if not os.path.exists(chains_save_dir): os.mkdir(chains_save_dir)
 
