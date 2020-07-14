@@ -64,6 +64,7 @@ if __name__ == "__main__":
                         # Percent identity
                         nw_score, percent_identity = calculate_percent_identity(f"{pdb_id}_{chain_a_letter}", chain_a_path, f"{pdb_id}_{chain_b_letter}", chain_b_path, os.path.join(temp_dir, "Global_Alignment.fasta"))
                         # TM-Align Score
+                        print(pdb_id, chain_a_letter, chain_b_letter)
                         structure_similarity = calculate_TMScore(chain_a_path, chain_b_path, os.path.join(temp_dir, "TMAlign_Output.txt"), alignment = os.path.join(temp_dir, "Global_Alignment.fasta"))
                         # Symmetry RMSD
                         # symmetry_rmsds = calculate_symmetry_rmsd(complex_path, symmetry_groups, os.path.join(temp_dir, "AnAnaS_Output.txt")) - WORK
