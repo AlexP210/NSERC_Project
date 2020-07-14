@@ -19,6 +19,7 @@ if __name__ == "__main__":
     # Read in the random comparisons
     random_comparisons_path = os.path.join(root_directory, "..", "RandomComparisons.csv")
     random_comparisons = pd.read_csv(random_comparisons_path)
+
      # Get the CDFs from the random comparisons
     print("     Calculating CDFs")
     cdf_AlignmentScore = ml.create_cdf(random_comparisons["Alignment_Score"])
