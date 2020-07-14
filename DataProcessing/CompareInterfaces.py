@@ -25,7 +25,7 @@ if __name__ == "__main__":
     root_directory = sys.argv[1]
     symmetry_groups = sys.argv[2:]
     print("1. COMPARING CHAINS")
-    for species_fol in os.listdir(root_directory)[:1]:
+    for species_fol in os.listdir(root_directory):
         print(species_fol)
         # Set all relevant folders for processing this species' data
         temp_dir = os.path.join(root_directory, species_fol, "_Temp")
