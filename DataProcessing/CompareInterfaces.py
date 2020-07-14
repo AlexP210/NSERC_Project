@@ -57,6 +57,7 @@ if __name__ == "__main__":
                     for sequence_b_idx in range(sequence_a_idx+1, len(chain_letters)):
                         chain_a_letter = chain_letters[sequence_a_idx]
                         chain_b_letter = chain_letters[sequence_b_idx]
+                        print(pdb_id, chain_a_letter, chain_b_letter)
                         # Get the paths to the chains, and the overall complex
                         chain_a_path = os.path.join(interface_directory, f"{pdb_id}_{chain_a_letter}.ent")
                         chain_b_path = os.path.join(interface_directory, f"{pdb_id}_{chain_b_letter}.ent")
