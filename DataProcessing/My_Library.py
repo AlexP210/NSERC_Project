@@ -174,6 +174,9 @@ def calculate_percent_identity(pdb_1_name, pdb_1_path, pdb_2_name, pdb_2_path, s
     # Get the sequences
     sequence_a = load_sequence(pdb_1_path)
     sequence_b = load_sequence(pdb_2_path)
+    # If the interface is too small, then return -1
+    if len(sequence_a) == 0 or len(sequence_b) == 0:
+        return -1
     # Perform the alignment adn check the identity
     alignment = aligner.align(sequence_a, sequence_b)[0]
     aligned_subsequences = alignment.aligned
