@@ -89,6 +89,14 @@ def load_sequence(pdb_filepath):
             sequence += one_letter_code(residue.get_resname())
     return sequence
 
+def load_chain_sequence(structure, chain_letter):
+    seq = ""
+    for chain in structure.get_chains():
+        if chain.get_id() == chain_letter:
+            for residue in chain.get_residues():
+                seq += one_letter_code(residue.get_resname())
+    return seq
+
 def one_letter_code(residue_name):
     conversion = {'CYS': 'C', 'ASP': 'D', 'SER': 'S', 'GLN': 'Q', 'LYS': 'K',
      'ILE': 'I', 'PRO': 'P', 'THR': 'T', 'PHE': 'F', 'ASN': 'N', 

@@ -56,10 +56,6 @@ if __name__ == "__main__":
         chain_files = os.listdir(chains_directory)
         chain_names = [cn.split(".")[0] for cn in chain_files]
 
-        # Counter so we know what number comparison this is, and how many pairings we've already done
-        counter = 0
-        pairings_examined = 0
-
         # Prepare the output file
         output_file.write("PDB_ID_1,PDB_ID_2,Chain_1,Chain_2,Chain_1_Length,Chain_2_Length,Alignment_Score,PID,TM\n")
 
@@ -68,9 +64,6 @@ if __name__ == "__main__":
         for i in range(10000):
             chain_idx_a = rand.randint(0, len(chain_names)-1)
             chain_idx_b = rand.randint(0, len(chain_names)-1)
-            while chain_idx_a == chain_idx_b:
-                chain_idx_a = rand.randint(0, len(chain_names)-1)
-                chain_idx_b = rand.randint(0, len(chain_names)-1)
 
             pdb_id_a = chain_names[chain_idx_a][:4].lower()
             chain_letter_a = chain_names[chain_idx_a][5].upper()
@@ -80,7 +73,21 @@ if __name__ == "__main__":
             chain_letter_b = chain_names[chain_idx_b][5].upper()
             chain_b_filename = f"{pdb_id_b}_{chain_letter_b}.ent"
             pdb_b_filename = f"{pdb_id_b}.cif"
-            print(f"Processing: {chain_a_filename} vs {chain_b_filename} # {pairings_examined}")
+            while chain_idx_a == chain_idx_b or f"{pdb_id_a}{chain_letter_a}{pdb_id_b}{chain_letter_b}" in compared or f"{pdb_id_b}{chain_letter_b}{pdb_id_a}{chain_letter_a}" in compared:
+                chain_idx_a = rand.randint(0, len(chain_names)-1)
+                chain_idx_b = rand.randint(0, len(chain_names)-1)
+
+                pdb_id_a = chain_names[chain_idx_a][:4].lower()
+                chain_letter_a = chain_names[chain_idx_a][5].upper()
+                chain_a_filename = f"{pdb_id_a}_{chain_letter_a}.ent"
+                pdb_a_filename = f"{pdb_id_a}.cif"
+                pdb_id_b = chain_names[chain_idx_b][:4].lower()
+                chain_letter_b = chain_names[chain_idx_b][5].upper()
+                chain_b_filename = f"{pdb_id_b}_{chain_letter_b}.ent"
+                pdb_b_filename = f"{pdb_id_b}.cif"
+            compared.add(f"{pdb_id_a}{chain_letter_a}{pdb_id_b}{chain_letter_b}")
+
+            print(f"Processing: {chain_a_filename} vs {chain_b_filename} # {i + 1}")
             # Get the paths to the chains, and the overall complex
             chain_a_path = os.path.join(chains_directory, f"{pdb_id_a}_{chain_letter_a}.ent")
             chain_b_path = os.path.join(chains_directory, f"{pdb_id_b}_{chain_letter_b}.ent")

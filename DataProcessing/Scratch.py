@@ -5,46 +5,30 @@ import My_Library as ml
 import matplotlib.pyplot as plt
 import numpy as np
 import sklearn.decomposition as sk
+from Bio.PDB import MMCIFParser
 
 if __name__ == "__main__":
 
-    
-    # Check the arguments
-    usage = f"$ python {__file__.split('/')[-1]} <Species Root Directory>"
-    if len(sys.argv) != 2:
-        print(usage)
-        sys.exit()
-    root_directory = sys.argv[1]
+    c = 0
+    for species_folder in os.listdir(r"E:\NSERC_Data\Heterotrimers_07_12\Heterotrimer_07-12\Heterotrimers\Data"):
+        species_directory = os.path.join(r"E:\NSERC_Data\Heterotrimers_07_12\Heterotrimer_07-12\Heterotrimers\Data", species_folder)
+        downloaded_structures_directory = os.path.join(species_directory, "Selected_Biological_Assemblies")
+        for downloaded_structure_filename in os.listdir(downloaded_structures_directory):
+            print(species_folder, downloaded_structure_filename)
+            downloaded_structure_path = os.path.join(downloaded_structures_directory, downloaded_structure_filename)
+            parser = MMCIFParser(QUIET=True)
+            structure = parser.get_structure(f"{downloaded_structure_filename.split('.')[0]}", downloaded_structure_path)
+            if len(list(structure.get_chains())) == 3:
+                c += 1
+                print(len(ml.load_sequence(downloaded_structure_path)))
+                for chain in structure.get_chains():
+                    print(chain.get_id())
+                    #print(ml.load_chain_sequence(structure, chain.get_id()))
+                    print()
+            if c == 3:
+                assert False
+            
+            
 
-
-    # Read in the random comparisons
-    random_comparisons_path = os.path.join(root_directory, "..", "RandomComparisons.csv")
-    random_comparisons = pd.read_csv(random_comparisons_path)
-
-    # plt.scatter(random_comparisons["Alignment_Score"], random_comparisons["PID"])
-    # plt.show()
-    # plt.scatter(random_comparisons["Alignment_Score"], random_comparisons["TM"])
-    # plt.show()
-    # plt.scatter(random_comparisons["TM"], random_comparisons["PID"])
-    # plt.show()
-
-    features = ["Alignment_Score", "PID", "TM"]
-    feature_frame = random_comparisons[features]
-    for feature in features:
-        mean = np.mean(feature_frame[feature])
-        stdev = np.std(feature_frame[feature])
-        feature_frame[feature] = (feature_frame[feature] - mean) / stdev
-
-    pca = sk.PCA(n_components=3)
-    pca.fit(feature_frame)
-    fitted_data = pca.fit_transform(feature_frame)
-    print(fitted_data)
-
-    plt.scatter(fitted_data[:,0], fitted_data[:,1])
-    plt.show()
-    plt.scatter(fitted_data[:,0], fitted_data[:,2])
-    plt.show()
-    plt.scatter(fitted_data[:,2], fitted_data[:,1])
-    plt.show()
 
 
