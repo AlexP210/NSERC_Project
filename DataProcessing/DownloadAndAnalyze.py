@@ -86,11 +86,11 @@ if __name__ == "__main__":
 
 #     if testing: input("Waiting ...")
 
-    # # Clean the PDBs
-    # print("Cleaning structures ...")
-    # call = f"python -u {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
-    # call = nohupify(call)
-    # os.system(call)
+    # Clean the PDBs
+    print("Cleaning structures ...")
+    call = f"python -u {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
     # if testing: input("Waiting ...")
 

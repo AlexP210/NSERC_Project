@@ -1,0 +1,7 @@
+Initializing ...
+sh: /1/home/pleava1/Bioinformatics/bin/activate: Permission denied
+Removing Duplicates ...
+Waiting ...Traceback (most recent call last):
+  File "DownloadAndAnalyze.py", line 63, in <module>
+    if testing: input("Waiting ...")
+OSError: [Errno 9] Bad file descriptor
