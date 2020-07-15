@@ -30,16 +30,21 @@ if __name__ == "__main__":
 
     features = ["Alignment_Score", "PID", "TM"]
     feature_frame = random_comparisons[features]
+    for feature in features:
+        mean = np.mean(feature_frame[feature])
+        stdev = np.std(feature_frame[feature])
+        feature_frame[feature] = (feature_frame[feature] - mean) / stdev
+
     pca = sk.PCA(n_components=3)
     pca.fit(feature_frame)
     fitted_data = pca.fit_transform(feature_frame)
     print(fitted_data)
 
-    plt.scatter(fitted_data[0,:], fitted_data[1,:])
+    plt.scatter(fitted_data[:,0], fitted_data[:,1])
     plt.show()
-    plt.scatter(fitted_data[0,:], fitted_data[2,:])
+    plt.scatter(fitted_data[:,0], fitted_data[:,2])
     plt.show()
-    plt.scatter(fitted_data[2,:], fitted_data[1,:])
+    plt.scatter(fitted_data[:,2], fitted_data[:,1])
     plt.show()
 
 
