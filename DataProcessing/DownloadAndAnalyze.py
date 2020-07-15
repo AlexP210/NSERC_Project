@@ -46,106 +46,106 @@ if __name__ == "__main__":
     logs_dir = os.path.join(cwd, "Logs")
     if not os.path.exists(logs_dir): os.mkdir(logs_dir)
 
-   # Scrape the periodic table
-   print("Scraping Periodic Table ...")
-   call = f"python -u {ScrapePeriodicTable} '{url}' {os.path.join(cwd, 'IDs.txt')} true > {os.path.join(logs_dir, 'ScrapePeriodicTable_Log.txt')}"
-   call = nohupify(call)
-   os.system(call)
+    # Scrape the periodic table
+    print("Scraping Periodic Table ...")
+    call = f"python -u {ScrapePeriodicTable} '{url}' {os.path.join(cwd, 'IDs.txt')} true > {os.path.join(logs_dir, 'ScrapePeriodicTable_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
-   if testing: input("Waiting ...")
+    # if testing: input("Waiting ...")
 
-   # Download the PDBs
-   print("Downloading CIF Files ...")
-   call = f"python -u {DownloadCIFs} {os.path.join(cwd, 'IDs.txt')} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'DownloadCIFs_Log.txt')}"
-   call = nohupify(call)
-   os.system(call)
+    # Download the PDBs
+    print("Downloading CIF Files ...")
+    call = f"python -u {DownloadCIFs} {os.path.join(cwd, 'IDs.txt')} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'DownloadCIFs_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
 #    if testing: input("Waiting ...")
 
-#     # Remove the duplicated PDBs
-#     print("Removing Duplicates ...")
-#     call = f"python -u {RemoveDuplicates} {os.path.join(cwd, 'Data')} 1 1 > {os.path.join(logs_dir, 'RemoveDuplicates_Log.txt')}"
-#     call = nohupify(call)
-#     os.system(call)
+    # Remove the duplicated PDBs
+    print("Removing Duplicates ...")
+    call = f"python -u {RemoveDuplicates} {os.path.join(cwd, 'Data')} 1 1 > {os.path.join(logs_dir, 'RemoveDuplicates_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
 #     if testing: input("Waiting ...")
 
-#     # Make the biological assemblies
-#     print("Forming Biological Assemblies ...")
-#     call = f"python -u {BiologicalAssemblies} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'BiologicalAssemblies_Log.txt')}"
-#     call = nohupify(call)
-#     os.system(call)
+    # Make the biological assemblies
+    print("Forming Biological Assemblies ...")
+    call = f"python -u {BiologicalAssemblies} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'BiologicalAssemblies_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
 #     if testing: input("Waiting ...")
 
-#     # Pick the representative biological assembly for each PDB
-#     print("Picking Representative Assemblies ...")
-#     call = f"python -u {PickRepresentativeAssembly} {os.path.join(cwd, 'Data')} {n_monomers} > {os.path.join(logs_dir, 'PickRepresentativeAssembly_Log.txt')}"
-#     call = nohupify(call)
-#     os.system(call)
+    # Pick the representative biological assembly for each PDB
+    print("Picking Representative Assemblies ...")
+    call = f"python -u {PickRepresentativeAssembly} {os.path.join(cwd, 'Data')} {n_monomers} > {os.path.join(logs_dir, 'PickRepresentativeAssembly_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
 #     if testing: input("Waiting ...")
 
     # Clean the PDBs
-    # print("Cleaning structures ...")
-    # call = f"python -u {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
-    # call = nohupify(call)
-    # os.system(call)
+    print("Cleaning structures ...")
+    call = f"python -u {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
     # # if testing: input("Waiting ...")
 
     # # Extract the chains
-    # print("Extracting Chains ...")
-    # call = f"python -u {ExtractChains} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'ExtractChains_Log.txt')}"
-    # call = nohupify(call)
-    # os.system(call)
+    print("Extracting Chains ...")
+    call = f"python -u {ExtractChains} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'ExtractChains_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
     # # if testing: input("Waiting ...")
 
     # # Compare the chains
-    # print("Comparing Chains ...")
-    # call = f"python -u {CompareChains} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareChains_Log.txt')}"
-    # call = nohupify(call)
-    # os.system(call)
+    print("Comparing Chains ...")
+    call = f"python -u {CompareChains} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareChains_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
     # # if testing: input("Waiting ...")
 
     # # Filter Redundant Chains
-    # print("Filtering Redundant Chains ...")
-    # call = f"python -u {RemoveRedundantChains} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantChains_Log.txt')}"
-    # call = nohupify(call)
-    # os.system(call)
+    print("Filtering Redundant Chains ...")
+    call = f"python -u {RemoveRedundantChains} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantChains_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
     # # if testing: input("Waiting ...")
 
     # # Random Comparisons
-    # print("Comparing random chains ...")
-    # call = f"python -u {RandomComparisons} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
-    # call = nohupify(call)
-    # os.system(call)
+    print("Comparing random chains ...")
+    call = f"python -u {RandomComparisons} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
     # # if testing: input("Waiting ...")
 
     # # Find the significant pairs
-    # print("Finding significant heteromers ...")
-    # call = f"python -u {FindHomologs} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'FindingSignificantHeteromers_Log.txt')}"
-    # call = nohupify(call)
-    # os.system(call)
+    print("Finding significant heteromers ...")
+    call = f"python -u {FindHomologs} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'FindingSignificantHeteromers_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
     # # if testing: input("Waiting ...")
 
     # # Extract interface
-    # print("Extracting interfaces ...")
-    # call = f"python -u {ExtractInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'ExtractInterfaces_Log.txt')}"
-    # call = nohupify(call)
-    # os.system(call)
+    print("Extracting interfaces ...")
+    call = f"python -u {ExtractInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'ExtractInterfaces_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
     # #if testing: input("Waiting ...")
 
     # # Compare interface
-    # print("Comparing interfaces ...")
-    # call = f"python -u {CompareInterfaces} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareInterfaces_Log.txt')}"
-    # call = nohupify(call)
-    # os.system(call)
+    print("Comparing interfaces ...")
+    call = f"python -u {CompareInterfaces} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareInterfaces_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
     print("Done")
