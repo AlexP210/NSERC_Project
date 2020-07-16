@@ -62,14 +62,6 @@ if __name__ == "__main__":
 
 #    if testing: input("Waiting ...")
 
-    # Remove the duplicated PDBs
-    print("Removing Duplicates ...")
-    call = f"python -u {RemoveDuplicates} {os.path.join(cwd, 'Data')} 1 1 > {os.path.join(logs_dir, 'RemoveDuplicates_Log.txt')}"
-    call = nohupify(call)
-    os.system(call)
-
-#     if testing: input("Waiting ...")
-
     # Make the biological assemblies
     print("Forming Biological Assemblies ...")
     call = f"python -u {BiologicalAssemblies} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'BiologicalAssemblies_Log.txt')}"
@@ -85,6 +77,15 @@ if __name__ == "__main__":
     os.system(call)
 
 #     if testing: input("Waiting ...")
+
+    # Remove the duplicated PDBs
+    print("Removing Duplicates ...")
+    call = f"python -u {RemoveDuplicates} {os.path.join(cwd, 'Data')} 1 1 > {os.path.join(logs_dir, 'RemoveDuplicates_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
+
+#     if testing: input("Waiting ...")
+
 
     # Clean the PDBs
     print("Cleaning structures ...")
