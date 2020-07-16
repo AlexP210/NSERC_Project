@@ -47,18 +47,18 @@ if __name__ == "__main__":
     if not os.path.exists(logs_dir): os.mkdir(logs_dir)
 
     # Scrape the periodic table
-    print("Scraping Periodic Table ...")
-    call = f"python -u {ScrapePeriodicTable} '{url}' {os.path.join(cwd, 'IDs.txt')} true > {os.path.join(logs_dir, 'ScrapePeriodicTable_Log.txt')}"
-    call = nohupify(call)
-    os.system(call)
+#    print("Scraping Periodic Table ...")
+#    call = f"python -u {ScrapePeriodicTable} '{url}' {os.path.join(cwd, 'IDs.txt')} true > {os.path.join(logs_dir, 'ScrapePeriodicTable_Log.txt')}"
+#    call = nohupify(call)
+#    os.system(call)
 
     # if testing: input("Waiting ...")
 
     # Download the PDBs
-    print("Downloading CIF Files ...")
-    call = f"python -u {DownloadCIFs} {os.path.join(cwd, 'IDs.txt')} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'DownloadCIFs_Log.txt')}"
-    call = nohupify(call)
-    os.system(call)
+#    print("Downloading CIF Files ...")
+#    call = f"python -u {DownloadCIFs} {os.path.join(cwd, 'IDs.txt')} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'DownloadCIFs_Log.txt')}"
+#    call = nohupify(call)
+#    os.system(call)
 
 #    if testing: input("Waiting ...")
 
