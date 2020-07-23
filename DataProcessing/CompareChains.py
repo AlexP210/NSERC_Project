@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
         with open(csv_path, "w") as output_file:
             # Create and write the header for the csv
-            header = "PDB_ID,Chain_1,Chain_2,Chain_1_Length,Chain_2_Length,Alignment_Score,PID,TM"
+            header = "PDB_ID,Chain_1,Chain_2,Chain_1_Length,Chain_2_Length,Length_Difference,Alignment_Score,Alignment_Score_Adjusted,PID,TM"
             for symmetry_group in symmetry_groups:
                 header += f", {symmetry_group.upper()}_RMSD"
             header += "\n"
@@ -68,7 +68,9 @@ if __name__ == "__main__":
                         # Symmetry RMSD
                         symmetry_rmsds = calculate_symmetry_rmsd(complex_path, symmetry_groups, os.path.join(temp_dir, "AnAnaS_Output.txt"))
                         # Save the data
-                        line = f"{pdb_id},{chain_letters[sequence_a_idx]},{chain_letters[sequence_b_idx]},{len(load_sequence(chain_a_path))},{len(load_sequence(chain_b_path))},{nw_score},{percent_identity},{structure_similarity}"
+                        length_a = len(load_sequence(chain_a_path))
+                        length_b = len(load_sequence(chain_b_path))
+                        line = f"{pdb_id},{chain_letters[sequence_a_idx]},{chain_letters[sequence_b_idx]},{length_a},{length_b},{abs(length_a - length_b)},{nw_score},{nw_score/max(length_a, length_b)},{percent_identity},{structure_similarity}"
                         for symmetry_rmsd in symmetry_rmsds:
                             line += f", {symmetry_rmsd}"
                         print(line)

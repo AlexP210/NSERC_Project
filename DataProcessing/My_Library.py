@@ -20,6 +20,8 @@ import time
 import math as m
 import numpy as np
 import scipy
+import pandas as pd
+from sklearn.decomposition import PCA
 
 
 def calculate_symmetry_rmsd(pdb_filepath, symmetry_groups, temp_path):
@@ -179,6 +181,7 @@ def calculate_percent_identity(pdb_1_name, pdb_1_path, pdb_2_name, pdb_2_path, s
     # Create the aligner object
     pam70 = substitution_matrices.load("PAM70")
     aligner = Align.PairwiseAligner(substitution_matrix = pam70, open_gap_score=-5, extend_gap_score=-1)
+    aligner.substitution_matrix = pam70 # Biopython bug; doesn't initialize the aligner with the subs mat unless we do this
     # Get the sequences
     sequence_a = load_sequence(pdb_1_path)
     sequence_b = load_sequence(pdb_2_path)
@@ -281,7 +284,7 @@ def p_value(X, prob):
     total = 0
     for i in sorted_hist:
         total += i[1]
-        if total / len(X) >= 0.95:
+        if total / len(X) >= 1-prob:
             return i[0]
 
 def create_cdf(X):
@@ -290,7 +293,52 @@ def create_cdf(X):
     else: 
         return lambda x: 0
 
-def get_interface(pdb_path_1, pdb_path_2, distance_cutoff, interface_path_1, interface_path_2):
+
+def get_interface_1file(pdb_path, distance_cutoff, interface_save_path):
+
+    chain_letters = get_chain_ids(pdb_path)
+
+    # Selector class
+    class SelectInterface(Select):
+        def __init__(self, cutoff, chain_letters, structure):
+            self.cutoff = cutoff
+            self.chain_letters = chain_letters
+            self.structure = structure
+            self.accepted_residues = set()
+        def accept_residue(self, residue):
+            # If we already saw it as being within 6 A from a previously exmined residue, accept it
+            if residue in self.accepted_residues:
+                return 1
+            residue_chain_letter = residue.get_parent().get_id()
+            other_chains = [chain_letter for chain_letter in self.chain_letters if chain_letter != residue_chain_letter]
+            # For each atom in the residue being analyzed, check the atoms in the other chains.
+            # If we are within cutoff, accept them
+            for atom in residue.get_atoms():
+                for chain_letter in other_chains:
+                    for other_atom in self.structure[0][chain_letter].get_atoms():
+                        if np.linalg.norm(atom.get_coord() - other_atom.get_coord()) <= self.cutoff:
+                            # Add the two residues to the accepted residues set
+                            self.accepted_residues.add(residue)
+                            self.accepted_residues.add(other_atom.get_parent())
+                            return 1
+            return 0
+    
+    extension = os.path.basename(pdb_path).split(".")[-1]
+    if extension == "cif":
+        parser = MMCIFParser(QUIET=True)
+        io = MMCIFIO()
+    elif extension == "pdb":
+        parser = PDBParser(QUIET=True)
+        io = PDBIO()
+    
+    structure = parser.get_structure("structure", pdb_path)
+    selector = SelectInterface(distance_cutoff, chain_letters, structure)
+    io.set_structure(structure)
+    io.save(interface_save_path, select=selector)
+
+    return True
+
+def get_interface_2files(pdb_path_1, pdb_path_2, distance_cutoff, interface_path_1, interface_path_2):
 
     # Selector class
     class SelectInterface(Select):
@@ -357,5 +405,53 @@ def clean_structure(pdb_path, save_path):
 
     return True
     
-        
+def statisticalize(pca, dataframe, features, pre_pca_means, pre_pca_stdevs, post_pca_means, post_pca_stdevs):
+    # # Log transform
+    # log_col_names = [f"Log({feature})" for feature in features]
+    # for i in range(len(log_col_names)):
+    #     feature_name = features[i]
+    #     log_feature_name = log_col_names[i] 
+    #     if feature_name in ("Alignment_Score"): # NOTE: Not logging because it can be negative
+    #         dataframe[log_feature_name] = dataframe[feature_name]
+    #     elif feature_name in ("Length_Difference"):
+    #         dataframe[log_feature_name] = np.log(dataframe[feature_name] + 1)
+    #     elif feature_name in ("PID", "TM"): # NOTE: not logging because max changes in the two datasets, gives inconsistent z scores
+    #         dataframe[log_feature_name] = dataframe[feature_name]
+
+    # Normalize
+    pre_normalized_col_names = [f"{name}_Normalized" for name in features]
+    for i in range(len(pre_normalized_col_names)):
+        feature_name = features[i]
+        normalized_log_col_name = pre_normalized_col_names[i]
+        dataframe[normalized_log_col_name] = ( dataframe[feature_name] - pre_pca_means[i] ) / pre_pca_stdevs[i]
+
+    # Do PCA
+    transformed_features = pca.transform(dataframe[pre_normalized_col_names])
+    transformed_feature_names = [f"PC{i}" for i in range(len(features))]
+    for i in range(len(transformed_feature_names)):
+        pc_name = transformed_feature_names[i]
+        dataframe[pc_name] = transformed_features[:,i]
+
+    # Normalize PC scores
+    normalized_pc_names = [f"{pc}_Normalized" for pc in transformed_feature_names]
+    for i in range(len(normalized_pc_names)):
+        pc = transformed_feature_names[i]
+        normalized_pc_name = normalized_pc_names[i]
+        dataframe[normalized_pc_name] = ( dataframe[pc] - post_pca_means[i] ) / post_pca_stdevs[i]
+
+    # Z scores
+    sum_of_squares = np.zeros((len(dataframe[features[0]])))
+    for name in normalized_pc_names:
+        sum_of_squares += dataframe[name]**2
+
+    dataframe["Distances"] = np.sqrt( sum_of_squares )
+    
+    return dataframe
+
+    
+
+
+
+    
+    
 

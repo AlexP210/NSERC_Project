@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sklearn.decomposition as sk
 from mpl_toolkits.mplot3d import Axes3D
+import math as m
 
 if __name__ == "__main__":
 
@@ -22,66 +23,43 @@ if __name__ == "__main__":
 
 
     # Read in the random comparisons
-    random_comparisons_path = os.path.join(root_directory, "..", "RandomComparisons.csv")
+    # random_comparisons_path = os.path.join(root_directory, "..", "RandomComparisons.csv")
+    random_comparisons_path = r"C:\Users\alexp\NSERC_Project\DataProcessing\RandomComparisons.csv"
     random_comparisons = pd.read_csv(random_comparisons_path, encoding="UTF-8-sig")
 
-    # Get the CDFs from the random comparisons
+    # Get the features from the random comparisons
     print("     Doing PCA")
-    features = random_comparisons[["PID", "TM", "Alignment_Score"]]
-    pca = sk.PCA()
-    transformed_features = pca.fit_transform(features)
-
-    # plt.scatter(transformed_features[:,0], transformed_features[:,1])
-    # #plt.show()
-    # plt.scatter(transformed_features[:, 0], transformed_features[:,2])
-    # #plt.show()
-    # plt.scatter(transformed_features[:,1], transformed_features[:,2])
-    # plt.show()
-    # plt.hist(transformed_features[:,0])
-    # #plt.show()
-    # plt.hist(transformed_features[:,1])
-    # #plt.show()
-    # plt.hist(transformed_features[:,2])
-    # plt.show()
-
-    fig = plt.figure()
-    ax = Axes3D(fig)
-
-    ax.scatter(transformed_features[:,0], transformed_features[:,1], transformed_features[:,2])
-    plt.show()
-
-    fig = plt.figure()
-    ax = Axes3D(fig)
-
-    ax.scatter(random_comparisons["PID"], random_comparisons["Alignment_Score"], random_comparisons["TM"])
-    plt.show()
+    features = ["PID", "TM", "Alignment_Score", "Length_Difference"]
+    # # Log'd
+    # log_features = pd.DataFrame(columns=features)
+    # for i in log_features:
+    #     if i in ("Alignment_Score"):
+    #         log_features[i] = np.log(random_comparisons[i] - min(random_comparisons[i]) + 1)
+    #     if i in ("Length_Difference"):
+    #         log_features[i] = np.log(random_comparisons[i] + 1)
+    #     elif i in ("PID", "TM"):
+    #         log_features[i] = np.log(max(random_comparisons[i]) - random_comparisons[i] + 1)
     
-    # for species_folder in os.listdir(root_directory):
-    #     print(species_folder)
-    #     # Set paths for this species folder
-    #     species_directory = os.path.join(root_directory, species_folder)
+
+    # Now, the actual data
+    for species_folder in os.listdir(root_directory):
+        print(species_folder)
+        # Set paths for this species folder
+        species_directory = os.path.join(root_directory, species_folder)
         
-    #     heteromer_comparisons_path = os.path.join(species_directory, "Chains.csv")
+        heteromer_comparisons_path = os.path.join(species_directory, "Chains.csv")
 
-    #     # Import the data
-    #     heteromer_comparisons = pd.read_csv(heteromer_comparisons_path)
+        # Import the data
+        heteromer_comparisons = pd.read_csv(heteromer_comparisons_path)
 
-    #     if len(heteromer_comparisons.index) > 0:
+        # If we actually have data to analyze
+        if len(heteromer_comparisons.index) > 0:
 
-    #         # Go through each of the heteromer alignments, and find the probability of getting something as significant, or more
-    #         print("     Calculating P-Values")
-    #         p_AlignmentScores = 1 - cdf_AlignmentScore(heteromer_comparisons["Alignment_Score"])
-    #         p_PercentIdentities = 1 - cdf_PercentIdentity(heteromer_comparisons["PID"])
-    #         p_TMScores = 1 - cdf_TMScore(heteromer_comparisons["TM"])
-
-    #         # Add the significances to the dataframe
-    #         heteromer_comparisons["AlignmentScore_pvalue"] = p_AlignmentScores
-    #         heteromer_comparisons["PID_pvalue"] = p_PercentIdentities
-    #         heteromer_comparisons["TM_pvalue"] = p_TMScores   
-    
-    #     # Save the new csv file
-    #     print("     Saving CSV")
-    #     save_path = os.path.join(species_directory, "ChainsWithSignificances.csv")
-    #     heteromer_comparisons.to_csv(save_path, encoding="UTF-8")
+            # heteromer_comparisons = ml.preprocess_data(heteromer_comparisons, features, pre_pca_means, pre_pca_stdevs)
+            heteromer_comparisons = ml.statisticalize(pca, heteromer_comparisons, features, pre_pca_means, pre_pca_stdevs, post_pca_means, post_pca_stdevs)
+            print(heteromer_comparisons)
+        print("     Saving CSV")
+        save_path = os.path.join(species_directory, "ChainsWithSignificances.csv")
+        heteromer_comparisons.to_csv(save_path, encoding="UTF-8")
 
 

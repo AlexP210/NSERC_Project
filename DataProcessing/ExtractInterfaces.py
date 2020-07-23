@@ -14,11 +14,15 @@ if __name__ == "__main__":
     # Go through each species folder
     for species_folder in os.listdir(root_directory):
         print(species_folder)
+
         # Set the directories
         species_directory = os.path.join(root_directory, species_folder)
-        extracted_chains_directory = os.path.join(species_directory, "Extracted_Chains")
-        separated_interfaces_directory = os.path.join(species_directory, "Separated_Interfaces")
-        if not os.path.exists(separated_interfaces_directory): os.mkdir(separated_interfaces_directory)
+        extracted_chains_directory = os.path.join(species_directory, "Clean_Structures")
+        interfaces_directory = os.path.join(species_directory, "Interfaces")
+        if not os.path.exists(interfaces_directory): os.mkdir(interfaces_directory)
+
+        # Take each .cif in the Clean_Structures folder, and save the interface to the
+        # Interfaces folder
 
         # Find which chains we have to deal with for each pdb id
         chain_id_map = {}

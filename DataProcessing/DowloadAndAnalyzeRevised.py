@@ -15,8 +15,8 @@ ExtractChains = os.path.join(DataProcessing_dir, "ExtractChains_V3.py")
 CompareChains = os.path.join(DataProcessing_dir, "CompareChains.py")
 RemoveRedundantChains = os.path.join(DataProcessing_dir, "RemoveRedundantChains.py")
 RandomComparisons = os.path.join(DataProcessing_dir, "RandomComparisons_V4.py")
-FindHomologs = os.path.join(DataProcessing_dir, "FindSignificantPairs.py")
-ExtractInterfaces = os.path.join(DataProcessing_dir, "ExtractInterfaces.py")
+ExtractInterfaces = os.path.join(DataProcessing_dir, "ExtractInterfaces_V2.py")
+SeparateInterfaces = None
 CompareInterfaces = os.path.join(DataProcessing_dir, "CompareInterfaces.py")
 
 def nohupify(call):
@@ -122,14 +122,6 @@ if __name__ == "__main__":
     # # Random Comparisons
     print("Comparing random chains ...")
     call = f"python -u {RandomComparisons} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
-    call = nohupify(call)
-    os.system(call)
-
-    # # if testing: input("Waiting ...")
-
-    # # Find the significant pairs
-    print("Finding significant heteromers ...")
-    call = f"python -u {FindHomologs} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'FindingSignificantHeteromers_Log.txt')}"
     call = nohupify(call)
     os.system(call)
 
