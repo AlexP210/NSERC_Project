@@ -21,7 +21,7 @@ if __name__ == "__main__":
         # Set the directories
         species_directory = os.path.join(root_directory, species_folder)
         clean_structures_directory = os.path.join(species_directory, "Clean_Structures")
-        interfaces_directory = os.path.join(species_directory, "Interfaces")
+        interfaces_directory = os.path.join(species_directory, "Complex_Interfaces")
         if not os.path.exists(interfaces_directory): os.mkdir(interfaces_directory)
 
         # Take each .cif in the Clean_Structures folder, and save the interface to the
@@ -29,7 +29,7 @@ if __name__ == "__main__":
         for structure_file_name in os.listdir(clean_structures_directory):
             structure_file_path = os.path.join(clean_structures_directory, structure_file_name)
             interface_file_path = os.path.join(interfaces_directory, structure_file_name)
-            if ml.get_interface_1file(structure_file_path, distance_cutoff, interface_file_path):
+            if ml.get_interfaces(structure_file_path, distance_cutoff, interface_file_path):
                 print(f"     {structure_file_name.split('.')[0]}")
 
 

@@ -293,10 +293,7 @@ def create_cdf(X):
     else: 
         return lambda x: 0
 
-
-def get_interface_1file(pdb_path, distance_cutoff, interface_save_path):
-
-    chain_letters = get_chain_ids(pdb_path)
+def get_interfaces(pdb_path, distance_cutoff, interface_save_path, chain_letters):
 
     # Selector class
     class SelectInterface(Select):
@@ -304,25 +301,39 @@ def get_interface_1file(pdb_path, distance_cutoff, interface_save_path):
             self.cutoff = cutoff
             self.chain_letters = chain_letters
             self.structure = structure
-            self.accepted_residues = set()
+            self.checked_residues = {}
         def accept_residue(self, residue):
-            # If we already saw it as being within 6 A from a previously exmined residue, accept it
-            if residue in self.accepted_residues:
-                return 1
+            # Check if the residue is in one of the chains we're interested in
             residue_chain_letter = residue.get_parent().get_id()
+            if not residue_chain_letter in chain_letters:
+                return 0
+            # If we already saw it as being within 6 A from a 
+            # previously exmined residue, see if we should accept
+            if residue in self.checked_residues:
+                accept = self.checked_residues[residue]
+                if accept == True: return 1
+                elif accept == False: return 0
             other_chains = [chain_letter for chain_letter in self.chain_letters if chain_letter != residue_chain_letter]
             # For each atom in the residue being analyzed, check the atoms in the other chains.
             # If we are within cutoff, accept them
             for atom in residue.get_atoms():
                 for chain_letter in other_chains:
                     for other_atom in self.structure[0][chain_letter].get_atoms():
-                        if np.linalg.norm(atom.get_coord() - other_atom.get_coord()) <= self.cutoff:
-                            # Add the two residues to the accepted residues set
-                            self.accepted_residues.add(residue)
-                            self.accepted_residues.add(other_atom.get_parent())
+                        other_residue = other_atom.get_parent()
+                        # If we know the other residue makes no contacts, skip it
+                        if other_residue in self.checked_residues and self.checked_residues[other_residue] == False:
+                            pass
+                        # If we compare them and they make contact, add them to the
+                        # accepted residues and return
+                        elif np.linalg.norm(atom.get_coord() - other_atom.get_coord()) <= self.cutoff:
+                            self.checked_residues[residue] = True
+                            self.checked_residues[other_atom.get_parent()] = True
                             return 1
+            # If no contacts, record it as having no contacts and return
+            self.checked_residues[residue] = False
             return 0
     
+    # prep the parser and io objects
     extension = os.path.basename(pdb_path).split(".")[-1]
     if extension == "cif":
         parser = MMCIFParser(QUIET=True)
@@ -331,6 +342,7 @@ def get_interface_1file(pdb_path, distance_cutoff, interface_save_path):
         parser = PDBParser(QUIET=True)
         io = PDBIO()
     
+    # Load in the structure, and save the interface
     structure = parser.get_structure("structure", pdb_path)
     selector = SelectInterface(distance_cutoff, chain_letters, structure)
     io.set_structure(structure)
@@ -448,7 +460,35 @@ def statisticalize(pca, dataframe, features, pre_pca_means, pre_pca_stdevs, post
     
     return dataframe
 
+def separate_chains(pdb_file_path, destination_folder):
+    extension = pdb_file_path.split(".")[-1]
+    pdb_id = os.path.basename(pdb_file_path).split(".")[0]
+    if extension == "cif":
+        parser = MMCIFParser(QUIET=True)
+        io = MMCIFIO()
+    elif extension in ("pdb", "ent"):
+        parser = PDBParser(QUIET=True)
+        io = PDBIO()
+
+    class SplitChains(Select):
+        def __init__(self, chain_letter):
+            self.chain_letter = chain_letter
+        def accept_chain(self, chain):
+            if chain.get_id() == self.chain_letter:
+                return 1
+            else:
+                return 0
     
+    chain_letters = get_chain_ids(pdb_file_path)
+    structure = parser.get_structure(pdb_id, pdb_file_path)
+    io.set_structure(structure)
+    for chain_letter in chain_letters:
+        selector = SplitChains(chain_letter)
+        filename = f"{pdb_id}_{chain_letter}.{extension}"
+        save_path = os.path.join(destination_folder, filename)
+        io.save(save_path, select=selector)
+
+    return True
 
 
 

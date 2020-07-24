@@ -129,7 +129,7 @@ if __name__ == "__main__":
             "TM":structure_similarity}, ignore_index=True)
     
     print("     Doing PCA")
-    features = ["PID", "TM", "Alignment_Score","Alignment_Score_Adjusted", "Length_Difference"]
+    features = ["PID", "TM", "Alignment_Score","Alignment_Score_Adjusted"]
 
     # Standardized
     pre_pca_means = []

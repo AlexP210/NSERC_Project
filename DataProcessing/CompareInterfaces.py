@@ -1,84 +1,93 @@
-# Changes over V4:
-# 1. Does not need to use WSL
-
-from Bio.PDB.MMCIFParser import MMCIFParser
-from Bio.PDB.Polypeptide import PPBuilder
-from Bio import SeqIO
-import os.path
+import My_Library as ml
 import os
 import sys
-from Bio.SubsMat import MatrixInfo as matlist
-from Bio.pairwise2 import align, format_alignment
-import numpy as np
-from math import atan2, acos
-from scipy.spatial.transform import Rotation
-import math
-import time
-
-from My_Library import *
+import pandas as pd
 
 if __name__ == "__main__":
     # Check arguments
     if len(sys.argv) < 3:
-        print(f"\nUsage: $ python {__file__.split('/')[-1]} <Species Root Directory> <Symmetry Groups>\n")
-        sys.exit()
+        print(f"Usage: $ python {__file__.split('.')[-1]} <Species Root Folder> <Symmetry Groups>")
     root_directory = sys.argv[1]
     symmetry_groups = sys.argv[2:]
-    print("1. COMPARING CHAINS")
-    for species_fol in os.listdir(root_directory):
-        print(species_fol)
-        # Set all relevant folders for processing this species' data
-        temp_dir = os.path.join(root_directory, species_fol, "_Temp")
-        if not os.path.exists(temp_dir): os.mkdir(temp_dir)
-        interface_directory = os.path.join(root_directory, species_fol, "Separated_Interfaces")
-        assemblies_directory = os.path.join(root_directory, species_fol, "Selected_Biological_Assemblies")
-        csv_path = os.path.join(root_directory, species_fol, "Interfaces.csv")
 
-        with open(csv_path, "w") as output_file:
-            # Create and write the header for the csv
-            header = "PDB_ID,Interface_1,Interface_2,Interface_1_Length,Interface_2_Length,Alignment_Score,PID,TM"
-            for symmetry_group in symmetry_groups:
-                header += f", {symmetry_group.upper()}_RMSD"
-            header += "\n"
-            output_file.write(header)
-
-
-            id_to_chains = {}
-            for filename in os.listdir(interface_directory):
-                interface_id = filename.split("_")[0][:6]
-                chain = filename.split("_")[-1].split(".")[0]
-                if interface_id not in id_to_chains:
-                    id_to_chains[interface_id] = [chain]
-                else:
-                    id_to_chains[interface_id].append(chain)
-
-            for pdb_id, chain_letters in id_to_chains.items():
-                for sequence_a_idx in range(len(chain_letters)-1):
-                    for sequence_b_idx in range(sequence_a_idx+1, len(chain_letters)):
-                        chain_a_letter = chain_letters[sequence_a_idx]
-                        chain_b_letter = chain_letters[sequence_b_idx]
-                        # Get the paths to the chains, and the overall complex
-                        chain_a_path = os.path.join(interface_directory, f"{pdb_id}_{chain_a_letter}.ent")
-                        chain_b_path = os.path.join(interface_directory, f"{pdb_id}_{chain_b_letter}.ent")
-                        # complex_path = os.path.join(assemblies_directory, f"{pdb_id}.cif") - WORK
-                        # Percent identity
-                        nw_score, percent_identity = calculate_percent_identity(f"{pdb_id}_{chain_a_letter}", chain_a_path, f"{pdb_id}_{chain_b_letter}", chain_b_path, os.path.join(temp_dir, "Global_Alignment.fasta"))
-                        # TM-Align Score
-                        structure_similarity = calculate_TMScore(chain_a_path, chain_b_path, os.path.join(temp_dir, "TMAlign_Output.txt"), alignment = os.path.join(temp_dir, "Global_Alignment.fasta"))
-                        # Symmetry RMSD
-                        # symmetry_rmsds = calculate_symmetry_rmsd(complex_path, symmetry_groups, os.path.join(temp_dir, "AnAnaS_Output.txt")) - WORK
-                        # Save the data
-                        line = f"{pdb_id[0:4]},{chain_letters[sequence_a_idx]},{chain_letters[sequence_b_idx]},{len(load_sequence(chain_a_path))},{len(load_sequence(chain_b_path))},{nw_score},{percent_identity},{structure_similarity}"
-                        # for symmetry_rmsd in symmetry_rmsds:
-                        #     line += f", {symmetry_rmsd}"
-                        print("    "+line)
-                        output_file.write(line + "\n")
-
+    for species_folder in os.listdir(root_directory):
+        print(species_folder)
+        # Set the directories
+        species_directory = os.path.join(root_directory, species_folder)
+        interface_comparisons_path = os.path.join(species_directory, "Interfaces.csv")
+        complex_interfaces_directory = os.path.join(species_directory, "Complex_Interfaces")
+        separated_complex_interfaces_directory = os.path.join(species_directory, "Separated_Complex_Interfaces")
+        pairwise_interfaces_directory = os.path.join(species_directory, "Pairwise_Interfaces")
+        temp_directory = os.path.join(species_directory, "_Temp")
+        # Create the dataframe
+        interface_comparisons = pd.DataFrame()
+        # Start iterating through the list of complex interfaces
+        for complex_interface_filename in os.listdir(complex_interfaces_directory):
+            pdb_id, extension = complex_interface_filename.split(".")
+            complex_interface_path = os.path.join(complex_interfaces_directory, complex_interface_filename)
+            chain_letters = ml.get_chain_ids(complex_interface_path)
+            # Get the complex-level symmetry of the interface
+            complex_level_symmetries = ml.calculate_symmetry_rmsd(
+                complex_interface_path, 
+                symmetry_groups, 
+                os.path.join(temp_directory, "AnAnaS_Output.txt"))
+            # Go through each pair of interfaces in the complex
+            for chain_a_idx in range(1, len(chain_letters)):
+                for chain_b_idx in range(chain_a_idx):
+                    print(f"Processing {pdb_id}_{chain_a_letter} VS {pdb_id}_{chain_b_letter}")
+                    # Get the paths for the separated interfaces
+                    chain_a_letter = chain_letters[chain_a_idx]
+                    chain_b_letter = chain_letters[chain_b_idx]
+                    chain_a_interface_filename = f"{pdb_id}_{chain_a_letter}.{extension}"
+                    chain_b_interface_filename = f"{pdb_id}_{chain_b_letter}.{extension}"
+                    chain_a_interface_path = os.path.join(separated_complex_interfaces_directory, chain_a_interface_filename)
+                    chain_b_interface_path = os.path.join(separated_complex_interfaces_directory, chain_a_interface_filename)
                     
+                    # Get the features
+                    interface_a_length = len( ml.load_sequence(chain_a_interface_path) )
+                    interface_b_length = len( ml.load_sequence(chain_b_interface_path) )
+                    length_difference = abs( interface_a_length - interface_b_length )
+                    alignment_score, percent_identity = ml.calculate_percent_identity(
+                        f"{pdb_id}_{chain_a_letter}",
+                        chain_a_interface_path, 
+                        f"{pdb_id}_{chain_b_letter}", 
+                        chain_b_interface_path, 
+                        save_alignment_path = os.path.join(temp_directory, "Global_Alignment.fasta"))
+                    adjusted_alignment_score = alignment_score / max(interface_a_length, interface_b_length)
+                    tm_score = ml.calculate_TMScore(
+                        chain_a_interface_path, 
+                        chain_b_interface_path, 
+                        os.path.join(temp_directory, "TMAlign_Output.txt"), 
+                        alignment = os.path.join(temp_directory, "Global_Alignment.fasta"))
+                    possible_pairwise_interface_filenames = [ 
+                        f"{pdb_id}{chain_a_letter}{chain_b_letter}.{extension}",
+                        f"{pdb_id}{chain_b_letter}{chain_a_letter}.{extension}" ]
+                    possible_pairwise_interface_paths = [os.path.join(pairwise_interfaces_directory, fn) for fn in possible_pairwise_interface_filenames]
+                    for path in possible_pairwise_interface_paths:
+                        if os.path.exists(path): pairwise_interface_path = path
+                    pairwise_symmetry = ml.calculate_symmetry_rmsd(
+                        pairwise_interface_path, 
+                        "c2", 
+                        os.path.join(temp_directory, "C2_AnAnaS_Output.txt"))
+                    row = {
+                        "PDB_ID":pdb_id,
+                        "Chain_1":chain_a_letter,
+                        "Chain_2":chain_b_letter,
+                        "Chain_1_Length":interface_a_length,
+                        "Chain_2_Length":interface_b_length,
+                        "Length_Difference":length_difference,
+                        "Alignment_Score":alignment_score,
+                        "Alignment_Score_Adjusted":adjusted_alignment_score,
+                        "PID":percent_identity,
+                        "TM":tm_score,
+                        "c2_RMSD":pairwise_symmetry
+                    }
+                    for symmetry_idx in range(len(symmetry_groups)):
+                        row[symmetry_groups[symmetry_idx]] = complex_level_symmetries[symmetry_idx] 
+                    print(row)
+                    interface_comparisons.append(row)
 
-
-    
-
-
+        interface_comparisons.to_csv(interface_comparisons_path)
+                    
 
 

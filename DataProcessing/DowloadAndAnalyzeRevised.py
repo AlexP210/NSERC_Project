@@ -15,9 +15,11 @@ ExtractChains = os.path.join(DataProcessing_dir, "ExtractChains_V3.py")
 CompareChains = os.path.join(DataProcessing_dir, "CompareChains.py")
 RemoveRedundantChains = os.path.join(DataProcessing_dir, "RemoveRedundantChains.py")
 RandomComparisons = os.path.join(DataProcessing_dir, "RandomComparisons_V4.py")
-ExtractInterfaces = os.path.join(DataProcessing_dir, "ExtractInterfaces_V2.py")
-SeparateInterfaces = None
-CompareInterfaces = os.path.join(DataProcessing_dir, "CompareInterfaces.py")
+IsolateComplexInterfaces = os.path.join(DataProcessing_dir, "IsolateComplexInterfaces.py")
+SeparateComplexInterfaces = os.path.join(DataProcessing_dir, "SeparateComplexInterfaces.py")
+IsolatePairwiseInterfaces = os.path.join(DataProcessing_dir, "IsolatePairwiseInterfaces.py")
+SeparatePairwiseInterfaces = os.path.join(DataProcessing_dir, "SeparatePairwiseInterfaces.py")
+CompareComplexInterfaces = os.path.join(DataProcessing_dir, "CompareInterfaces.py")
 
 def nohupify(call):
     if sys.platform in ("linux", "linux2") and False:
@@ -52,15 +54,11 @@ if __name__ == "__main__":
     call = nohupify(call)
     os.system(call)
 
-    # if testing: input("Waiting ...")
-
     # Download the PDBs
     print("Downloading CIF Files ...")
     call = f"python -u {DownloadCIFs} {os.path.join(cwd, 'IDs.txt')} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'DownloadCIFs_Log.txt')}"
     call = nohupify(call)
     os.system(call)
-
-#    if testing: input("Waiting ...")
 
     # Make the biological assemblies
     print("Forming Biological Assemblies ...")
@@ -68,15 +66,11 @@ if __name__ == "__main__":
     call = nohupify(call)
     os.system(call)
 
-#     if testing: input("Waiting ...")
-
     # Pick the representative biological assembly for each PDB
     print("Picking Representative Assemblies ...")
     call = f"python -u {PickRepresentativeAssembly} {os.path.join(cwd, 'Data')} {n_monomers} > {os.path.join(logs_dir, 'PickRepresentativeAssembly_Log.txt')}"
     call = nohupify(call)
     os.system(call)
-
-#     if testing: input("Waiting ...")
 
     # Remove the duplicated PDBs
     print("Removing Duplicates ...")
@@ -84,16 +78,11 @@ if __name__ == "__main__":
     call = nohupify(call)
     os.system(call)
 
-#     if testing: input("Waiting ...")
-
-
     # Clean the PDBs
     print("Cleaning structures ...")
     call = f"python -u {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
     call = nohupify(call)
     os.system(call)
-
-    # # if testing: input("Waiting ...")
 
     # # Extract the chains
     print("Extracting Chains ...")
@@ -101,15 +90,11 @@ if __name__ == "__main__":
     call = nohupify(call)
     os.system(call)
 
-    # # if testing: input("Waiting ...")
-
     # # Compare the chains
     print("Comparing Chains ...")
     call = f"python -u {CompareChains} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareChains_Log.txt')}"
     call = nohupify(call)
     os.system(call)
-
-    # # if testing: input("Waiting ...")
 
     # # Filter Redundant Chains
     print("Filtering Redundant Chains ...")
@@ -117,27 +102,27 @@ if __name__ == "__main__":
     call = nohupify(call)
     os.system(call)
 
-    # # if testing: input("Waiting ...")
-
     # # Random Comparisons
     print("Comparing random chains ...")
     call = f"python -u {RandomComparisons} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
     call = nohupify(call)
     os.system(call)
 
-    # # if testing: input("Waiting ...")
-
-    # # Extract interface
+    # # Isolate complex interfaces
     print("Extracting interfaces ...")
-    call = f"python -u {ExtractInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'ExtractInterfaces_Log.txt')}"
+    call = f"python -u {IsolateComplexInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'IsolateComplexInterfaces_Log.txt')}"
     call = nohupify(call)
     os.system(call)
 
-    # #if testing: input("Waiting ...")
+    # # Isolate pairwise interfaces
+    print("Extracting interfaces ...")
+    call = f"python -u {IsolatePairwiseInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'IsolatePairwiseInterfaces_Log.txt')}"
+    call = nohupify(call)
+    os.system(call)
 
-    # # Compare interface
+    # # Compare interfaces
     print("Comparing interfaces ...")
-    call = f"python -u {CompareInterfaces} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareInterfaces_Log.txt')}"
+    call = f"python -u {CompareComplexInterfaces} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareComplexInterfaces_Log.txt')}"
     call = nohupify(call)
     os.system(call)
 
