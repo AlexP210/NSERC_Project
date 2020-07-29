@@ -465,10 +465,11 @@ def separate_chains(pdb_file_path, destination_folder):
     pdb_id = os.path.basename(pdb_file_path).split(".")[0]
     if extension == "cif":
         parser = MMCIFParser(QUIET=True)
-        io = MMCIFIO()
     elif extension in ("pdb", "ent"):
         parser = PDBParser(QUIET=True)
-        io = PDBIO()
+    # Always use PDBIO() to write separated chains as .ent files. Otherwise TMAlign requires header information
+    # (most likely whats causing the issue) either way, using .ent format for the structureal alignment works fine
+    io = PDBIO()
 
     class SplitChains(Select):
         def __init__(self, chain_letter):
@@ -484,14 +485,35 @@ def separate_chains(pdb_file_path, destination_folder):
     io.set_structure(structure)
     for chain_letter in chain_letters:
         selector = SplitChains(chain_letter)
-        filename = f"{pdb_id}_{chain_letter}.{extension}"
+        filename = f"{pdb_id}_{chain_letter}.ent"
         save_path = os.path.join(destination_folder, filename)
         io.save(save_path, select=selector)
 
     return True
 
+def increment_index_state(index_state, species_for_chains):
+    index_state = list(index_state)
+    for idx_idx in range(len(index_state)):
+        if index_state[idx_idx] < len(species_for_chains[idx_idx]) - 1:
+            index_state[idx_idx] += 1
+            break
+        else:
+            index_state[idx_idx] = 0
+    return tuple(index_state)
+ 
+def find_species(species_for_chains):
+    index_state = tuple( (0 for _ in range(len(species_for_chains))) )
+    initial = True
+    while initial or index_state != tuple( (0 for _ in range(len(species_for_chains))) ):
+        initial = False
+        species = [species_for_chains[idx_idx][index_state[idx_idx]] for idx_idx in range(len(index_state))]
+        initial_specie = species[0]
+        for specie in species:
+            if specie != initial_specie:
+                index_state = increment_index_state(index_state, species_for_chains)
+                break
+            return True, initial_specie
+    return False, None
 
-
-    
-    
-
+if __name__ == "__main__":
+    print(find_species([["A", "B"], ["B", "A"]]))

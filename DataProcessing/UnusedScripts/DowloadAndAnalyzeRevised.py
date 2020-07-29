@@ -5,30 +5,34 @@ import sys
 DataProcessing_dir = f"{os.path.dirname(__file__)}"
 
 # Processing Scripts
+# Set-Up
 ScrapePeriodicTable = os.path.join(DataProcessing_dir, "ScrapePeriodicTable_V2.py")
 DownloadCIFs = os.path.join(DataProcessing_dir, "DownloadCIFs.py")
 BiologicalAssemblies = os.path.join(DataProcessing_dir, "BiologicalAssemblies_V2.py")
 PickRepresentativeAssembly = os.path.join(DataProcessing_dir, "PickRepresentativeAssembly.py")
 RemoveDuplicates = os.path.join(DataProcessing_dir, "RemoveDuplicates_V2.py")
 CleanStructures = os.path.join(DataProcessing_dir, "CleanStructures_V2.py")
-ExtractChains = os.path.join(DataProcessing_dir, "ExtractChains_V3.py")
+# Compare the Protein Chains
+SeparateChains = os.path.join(DataProcessing_dir, "SeparateChains.py")
 CompareChains = os.path.join(DataProcessing_dir, "CompareChains.py")
-RemoveRedundantChains = os.path.join(DataProcessing_dir, "RemoveRedundantChains.py")
-RandomComparisons = os.path.join(DataProcessing_dir, "RandomComparisons_V4.py")
+RemoveRedundantChains = os.path.join(DataProcessing_dir, "RemoveRedundantChains_V2.py")
+RandomChainComparisonsAndStatistics = os.path.join(DataProcessing_dir, "RandomChainComparisonsAndStatistics.py")
+# Compare the whole-complex interfaces
 IsolateComplexInterfaces = os.path.join(DataProcessing_dir, "IsolateComplexInterfaces.py")
+RemoveEmptyComplexInterfaces = os.path.join(DataProcessing_dir, "RemoveEmptyInterfaces.py")
 SeparateComplexInterfaces = os.path.join(DataProcessing_dir, "SeparateComplexInterfaces.py")
-IsolatePairwiseInterfaces = os.path.join(DataProcessing_dir, "IsolatePairwiseInterfaces.py")
-SeparatePairwiseInterfaces = os.path.join(DataProcessing_dir, "SeparatePairwiseInterfaces.py")
-CompareComplexInterfaces = os.path.join(DataProcessing_dir, "CompareInterfaces.py")
-
-def nohupify(call):
-    if sys.platform in ("linux", "linux2") and False:
-        return "nohup " + call + " &"
-    else: return call
+CompareComplexInterfaces = os.path.join(DataProcessing_dir, "CompareComplexInterfaces.py")
+RemoveRedundantComplexInterfaces = os.path.join(DataProcessing_dir, "RemoveRedundantComplexInterfaces.py")
+RandomComplexInterfaceComparisonsAndStatistics = os.path.join(DataProcessing_dir, "RandomComplexInterfaceComparisonsAndStatistics.py")
+# # Compare the pairwise-interfaces for each pair of chains
+# NOTE: Not yet ready
+# IsolatePairwiseInterfaces = os.path.join(DataProcessing_dir, "IsolatePairwiseInterfaces.py")
+# RemoveEmptyPairwiseInterfaces = None
+# SeparatePairwiseInterfaces = os.path.join(DataProcessing_dir, "SeparatePairwiseInterfaces.py")
 
 # Main
 if __name__ == "__main__":
-    usage = f"\n$ python {os.path.basename(__file__)} <Periodic Table URL> <Current Working Directory> <Number of Monomers> <Max Sequence Similarity> <Max Structural Similarity> <Distance Cutoff> <Symmetries> <Testing>\n"
+    usage = f"\n$ python {os.path.basename(__file__)} <Periodic Table URL> <Current Working Directory> <Number of Monomers> <Max Sequence Similarity> <Max Structural Similarity> <Distance Cutoff> <Symmetries>\n"
     if len(sys.argv) < 8:
         print(usage)
         sys.exit()
@@ -40,7 +44,6 @@ if __name__ == "__main__":
     max_structural_similarity = sys.argv[5]
     distance_cutoff = float(sys.argv[6])
     symmetry_groups = " ".join(sys.argv[7:-1])
-    testing = bool(sys.argv[-1])
 
     # Activate the environment, get the cwd, set up folder for logs
     print("Initializing ...")
@@ -51,79 +54,67 @@ if __name__ == "__main__":
     # Scrape the periodic table
     print("Scraping Periodic Table ...")
     call = f"python -u {ScrapePeriodicTable} '{url}' {os.path.join(cwd, 'IDs.txt')} true > {os.path.join(logs_dir, 'ScrapePeriodicTable_Log.txt')}"
-    call = nohupify(call)
     os.system(call)
 
     # Download the PDBs
     print("Downloading CIF Files ...")
     call = f"python -u {DownloadCIFs} {os.path.join(cwd, 'IDs.txt')} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'DownloadCIFs_Log.txt')}"
-    call = nohupify(call)
     os.system(call)
 
     # Make the biological assemblies
     print("Forming Biological Assemblies ...")
     call = f"python -u {BiologicalAssemblies} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'BiologicalAssemblies_Log.txt')}"
-    call = nohupify(call)
     os.system(call)
 
     # Pick the representative biological assembly for each PDB
     print("Picking Representative Assemblies ...")
     call = f"python -u {PickRepresentativeAssembly} {os.path.join(cwd, 'Data')} {n_monomers} > {os.path.join(logs_dir, 'PickRepresentativeAssembly_Log.txt')}"
-    call = nohupify(call)
     os.system(call)
 
     # Remove the duplicated PDBs
     print("Removing Duplicates ...")
     call = f"python -u {RemoveDuplicates} {os.path.join(cwd, 'Data')} 1 1 > {os.path.join(logs_dir, 'RemoveDuplicates_Log.txt')}"
-    call = nohupify(call)
     os.system(call)
 
     # Clean the PDBs
     print("Cleaning structures ...")
     call = f"python -u {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
-    call = nohupify(call)
     os.system(call)
 
     # # Extract the chains
     print("Extracting Chains ...")
-    call = f"python -u {ExtractChains} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'ExtractChains_Log.txt')}"
-    call = nohupify(call)
+    call = f"python -u {SeparateChains} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'ExtractChains_Log.txt')}"
     os.system(call)
 
     # # Compare the chains
     print("Comparing Chains ...")
     call = f"python -u {CompareChains} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareChains_Log.txt')}"
-    call = nohupify(call)
     os.system(call)
 
     # # Filter Redundant Chains
     print("Filtering Redundant Chains ...")
     call = f"python -u {RemoveRedundantChains} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantChains_Log.txt')}"
-    call = nohupify(call)
     os.system(call)
 
     # # Random Comparisons
     print("Comparing random chains ...")
-    call = f"python -u {RandomComparisons} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
-    call = nohupify(call)
+    call = f"python -u {RandomChainComparisonsAndStatistics} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
     os.system(call)
 
     # # Isolate complex interfaces
     print("Extracting interfaces ...")
     call = f"python -u {IsolateComplexInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'IsolateComplexInterfaces_Log.txt')}"
-    call = nohupify(call)
     os.system(call)
 
-    # # Isolate pairwise interfaces
-    print("Extracting interfaces ...")
-    call = f"python -u {IsolatePairwiseInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'IsolatePairwiseInterfaces_Log.txt')}"
-    call = nohupify(call)
+    # # Separate complex interfaces
+    print("Separating interfaces ...")
+    call = f"python -u {SeparateComplexInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'SeparateComplexInterfaces_Log.txt')}"
     os.system(call)
+
 
     # # Compare interfaces
     print("Comparing interfaces ...")
     call = f"python -u {CompareComplexInterfaces} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareComplexInterfaces_Log.txt')}"
-    call = nohupify(call)
     os.system(call)
 
     print("Done")

@@ -29,7 +29,8 @@ if __name__ == "__main__":
         for structure_file_name in os.listdir(clean_structures_directory):
             structure_file_path = os.path.join(clean_structures_directory, structure_file_name)
             interface_file_path = os.path.join(interfaces_directory, structure_file_name)
-            if ml.get_interfaces(structure_file_path, distance_cutoff, interface_file_path):
+            chain_letters = ml.get_chain_ids(structure_file_path)
+            if ml.get_interfaces(structure_file_path, distance_cutoff, interface_file_path, chain_letters):
                 print(f"     {structure_file_name.split('.')[0]}")
 
 

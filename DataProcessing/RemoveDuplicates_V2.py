@@ -1,6 +1,20 @@
 # Changes over V1:
 # 1. Removes duplicates from the Selected Biological Assemblies Folder
 
+# Wacky error:
+# Traceback (most recent call last):
+#   File ".\RemoveDuplicates_V2.py", line 105, in <module>
+#     if has_duplicate(path, pdb_list, max_sequence_similarity, max_structure_similarity):
+#   File ".\RemoveDuplicates_V2.py", line 74, in has_duplicate
+#     if is_equivalent(pdb, other_pdb, max_sequence_similarity, max_structure_similarity):
+#   File ".\RemoveDuplicates_V2.py", line 32, in is_equivalent
+#     structure_1 = parser_1.get_structure("structure_1", pdb1_filename)
+#   File "C:\Users\alexp\Anaconda3\envs\Bioinformatics\lib\site-packages\Bio\PDB\MMCIFParser.py", line 64, in get_structure
+#     self._build_structure(structure_id)
+#   File "C:\Users\alexp\Anaconda3\envs\Bioinformatics\lib\site-packages\Bio\PDB\MMCIFParser.py", line 140, in _build_structure
+#     chainid = chain_id_list[i]
+# IndexError: list index out of range
+
 from os.path import join
 from os import listdir, remove
 from Bio import SeqIO
@@ -21,15 +35,15 @@ def is_equivalent(pdb1_filename, pdb2_filename, max_sequence_similarity, max_str
     pdb_id_2 = os.path.basename(pdb2_filename).split(".")[0]
     # Set the parsers
     if pdb1_filename.split(".")[-1] == "cif":
-        parser_1 = MMCIFParser()
+        parser_1 = MMCIFParser(QUIET=True)
     elif pdb1_filename.split(".")[-1] in ("ent", "pdb"):
-        parser_1 = PDBParser()
+        parser_1 = PDBParser(QUIET=True)
     if pdb2_filename.split(".")[-1] == "cif":
-        parser_2 = MMCIFParser()
+        parser_2 = MMCIFParser(QUIET=True)
     elif pdb2_filename.split(".")[-1] in ("ent", "pdb"):
-        parser_2 = PDBParser()
+        parser_2 = PDBParser(QUIET=True)
     # Get the structures and get the sequences for each chain
-    structure_1 = parser_1(pdb1_filename)
+    structure_1 = parser_1.get_structure("structure_1", pdb1_filename)
     sequences_1 = []
     for chain in structure_1.get_chains():
         chain_id = f"{pdb_id_1}{chain.get_id()}"
@@ -41,7 +55,7 @@ def is_equivalent(pdb1_filename, pdb2_filename, max_sequence_similarity, max_str
             seq = ml.load_chain_sequence(structure_1, chain.get_id())
             sequences_1.append(seq)
             sequence_cache[chain_id] = seq
-    structure_2 = parser_2(pdb2_filename)
+    structure_2 = parser_2.get_structure("structure_2", pdb2_filename)
     sequences_2 = []
     for chain in structure_2.get_chains():
         chain_id = f"{pdb_id_2}{chain.get_id()}"
@@ -56,8 +70,8 @@ def is_equivalent(pdb1_filename, pdb2_filename, max_sequence_similarity, max_str
     # Now, create a matrix that describes the PID of each combination of 
     # chains between structures 1 and 2
     equivalence_matrix = np.zeros((len(sequences_1), len(sequences_2)))
-    for i in equivalence_matrix.shape[0]:
-        for j in equivalence_matrix.shape[1]:
+    for i in range(equivalence_matrix.shape[0]):
+        for j in range(equivalence_matrix.shape[1]):
             equivalence_matrix[i, j] = ml.global_alignment_score(sequences_1[i], sequences_2[j]) == 1
     equivalence_matrix = np.matrix(equivalence_matrix)
     # If there is a 1-to-1 mapping of chains from structure 1 to structure 2, then the structures
@@ -94,6 +108,8 @@ if __name__ == "__main__":
     print("1. REMOVING DUPLICATES")
     for species_folder in os.listdir(root_directory):
         print(f"{species_folder}")
+        duplicates_removed_directory = os.path.join(root_directory, species_folder, "Duplicates_Removed")
+        if not os.path.exists(duplicates_removed_directory): os.mkdir(duplicates_removed_directory)
         cif_directory = os.path.join(root_directory, species_folder, "Selected_Biological_Assemblies")
         temp_path = os.path.join(root_directory, species_folder, "_Temp")
         pdb_list = []
@@ -104,14 +120,11 @@ if __name__ == "__main__":
                 print(f"    Removed {filename}")
             else:
                 pdb_list.append(path)
-        duplicates_removed_directory = os.path.join(root_directory, species_folder, "Duplicates_Removed")
-        if not os.path.exists(duplicates_removed_directory): os.mkdir(duplicates_removed_directory)
-        print('    Copying non-duplicates to Duplicates_Removed')
-        for non_duplicate_path in pdb_list:
-            non_duplicate_filename = os.path.basename(non_duplicate_path)
-            destination = os.path.join(duplicates_removed_directory, non_duplicate_filename)
-            if not os.path.exists(destination):
-                shutil.copyfile(non_duplicate_path, destination)
+                destination = os.path.join(duplicates_removed_directory, filename)
+                if not os.path.exists(destination):
+                    shutil.copyfile(path, destination)
+                print(f"    Saved {filename}")
+            
 
         
 
