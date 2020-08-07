@@ -4,7 +4,7 @@ from Bio.PDB.Polypeptide import PPBuilder
 from Bio import SeqIO
 from Bio import Align
 from Bio import AlignIO
-from Bio.PDB import MMCIFIO, PDBIO
+from Bio.PDB import MMCIFIO, PDBIO, NeighborSearch
 from Bio.PDB import Select
 import os.path
 import os
@@ -297,40 +297,31 @@ def get_interfaces(pdb_path, distance_cutoff, interface_save_path, chain_letters
 
     # Selector class
     class SelectInterface(Select):
-        def __init__(self, cutoff, chain_letters, structure):
-            self.cutoff = cutoff
-            self.chain_letters = chain_letters
-            self.structure = structure
-            self.checked_residues = {}
+        def __init__(self, structure, distance_cutoff, chain_letters=None):
+            if chain_letters == None: chain_letters = list([list(structure.get_chains())[i].get_id() for i in range(len(list(structure.get_chains())))])
+            self.atom_lists = {}
+            self.accepted_residues = set()
+            self.distance_cutoff = distance_cutoff
+            for chain_letter in chain_letters:
+                self.atom_lists[chain_letter] = list( [atom for atom in structure.get_atoms() if (atom.get_parent().get_parent().get_id() != chain_letter and atom.get_parent().get_parent().get_id() in chain_letters)])
         def accept_residue(self, residue):
-            # Check if the residue is in one of the chains we're interested in
-            residue_chain_letter = residue.get_parent().get_id()
-            if not residue_chain_letter in chain_letters:
-                return 0
-            # If we already saw it as being within 6 A from a 
-            # previously exmined residue, see if we should accept
-            if residue in self.checked_residues:
-                accept = self.checked_residues[residue]
-                if accept == True: return 1
-                elif accept == False: return 0
-            other_chains = [chain_letter for chain_letter in self.chain_letters if chain_letter != residue_chain_letter]
-            # For each atom in the residue being analyzed, check the atoms in the other chains.
-            # If we are within cutoff, accept them
+            # If we already cleared this residue, then include it
+            # if residue in self.accepted_residues:
+            #     return 1
+            # otherwise, get the coordinates, and check if anything atoms in the
+            # other chains are within range
+            chain_letter = residue.get_parent().get_id()
+            atom_list = self.atom_lists[chain_letter]
+            searcher = NeighborSearch(atom_list)
+            # Go through each atom in the residue, find whats 
             for atom in residue.get_atoms():
-                for chain_letter in other_chains:
-                    for other_atom in self.structure[0][chain_letter].get_atoms():
-                        other_residue = other_atom.get_parent()
-                        # If we know the other residue makes no contacts, skip it
-                        if other_residue in self.checked_residues and self.checked_residues[other_residue] == False:
-                            pass
-                        # If we compare them and they make contact, add them to the
-                        # accepted residues and return
-                        elif np.linalg.norm(atom.get_coord() - other_atom.get_coord()) <= self.cutoff:
-                            self.checked_residues[residue] = True
-                            self.checked_residues[other_atom.get_parent()] = True
-                            return 1
-            # If no contacts, record it as having no contacts and return
-            self.checked_residues[residue] = False
+                position = atom.get_coord()
+                contact_residues = searcher.search(position, self.distance_cutoff, level="R")
+                for residue in contact_residues:
+                    self.accepted_residues.add(residue)
+                if len(contact_residues) > 0: 
+                    self.accepted_residues.add(residue)
+                    return 1
             return 0
     
     # prep the parser and io objects
@@ -338,13 +329,13 @@ def get_interfaces(pdb_path, distance_cutoff, interface_save_path, chain_letters
     if extension == "cif":
         parser = MMCIFParser(QUIET=True)
         io = MMCIFIO()
-    elif extension == "pdb":
+    elif extension in ("pdb", "ent"):
         parser = PDBParser(QUIET=True)
         io = PDBIO()
     
     # Load in the structure, and save the interface
     structure = parser.get_structure("structure", pdb_path)
-    selector = SelectInterface(distance_cutoff, chain_letters, structure)
+    selector = SelectInterface(structure, distance_cutoff)
     io.set_structure(structure)
     io.save(interface_save_path, select=selector)
 

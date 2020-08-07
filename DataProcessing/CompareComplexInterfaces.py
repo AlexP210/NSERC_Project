@@ -44,10 +44,9 @@ if __name__ == "__main__":
                     chain_a_interface_filename = f"{pdb_id}_{chain_a_letter}.ent"
                     chain_b_interface_filename = f"{pdb_id}_{chain_b_letter}.ent"
                     chain_a_interface_path = os.path.join(separated_complex_interfaces_directory, chain_a_interface_filename)
-                    chain_b_interface_path = os.path.join(separated_complex_interfaces_directory, chain_a_interface_filename)
+                    chain_b_interface_path = os.path.join(separated_complex_interfaces_directory, chain_b_interface_filename)
                     
                     # Get the features
-                    print(ml.load_sequence(chain_a_interface_path))
                     interface_a_length = len( ml.load_sequence(chain_a_interface_path) )
                     interface_b_length = len( ml.load_sequence(chain_b_interface_path) )
                     length_difference = abs( interface_a_length - interface_b_length )

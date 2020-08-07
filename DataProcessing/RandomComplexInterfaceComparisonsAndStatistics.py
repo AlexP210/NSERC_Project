@@ -84,6 +84,7 @@ if __name__ == "__main__":
             chain_letter_b = complex_interface_names[chain_idx_b][5].upper()
             chain_b_filename = f"{pdb_id_b}_{chain_letter_b}.ent"
             pdb_b_filename = f"{pdb_id_b}.cif"
+        # Record our choice as having been compared
         compared.add(f"{pdb_id_a}{chain_letter_a}{pdb_id_b}{chain_letter_b}")
 
         print(f"Processing: {chain_a_filename} vs {chain_b_filename} # {i + 1}")

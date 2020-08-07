@@ -7,15 +7,15 @@ DataProcessing_dir = f"{os.path.dirname(__file__)}"
 # Processing Scripts
 # Set-Up
 ScrapePeriodicTable = os.path.join(DataProcessing_dir, "ScrapePeriodicTable_V2.py")
-DownloadCIFs = os.path.join(DataProcessing_dir, "DownloadCIFs.py")
-BiologicalAssemblies = os.path.join(DataProcessing_dir, "BiologicalAssemblies_V2.py")
-PickRepresentativeAssembly = os.path.join(DataProcessing_dir, "PickRepresentativeAssembly.py")
-RemoveDuplicates = os.path.join(DataProcessing_dir, "RemoveDuplicates_V2.py")
-CleanStructures = os.path.join(DataProcessing_dir, "CleanStructures_V2.py")
+DownloadCIFs = os.path.join(DataProcessing_dir, "DownloadCIFs.py") # CIF
+BiologicalAssemblies = os.path.join(DataProcessing_dir, "BiologicalAssemblies_V2.py") # CIF
+PickRepresentativeAssembly = os.path.join(DataProcessing_dir, "PickRepresentativeAssembly.py") # CIF
+RemoveDuplicates = os.path.join(DataProcessing_dir, "RemoveDuplicates_V2.py") # CIF
+CleanStructures = os.path.join(DataProcessing_dir, "CleanStructures_V2.py") # CIF
 # Compare the Protein Chains
-SeparateChains = os.path.join(DataProcessing_dir, "SeparateChains.py")
+SeparateChains = os.path.join(DataProcessing_dir, "SeparateChains.py") # PDB
 CompareChains = os.path.join(DataProcessing_dir, "CompareChains.py")
-RemoveRedundantChains = os.path.join(DataProcessing_dir, "RemoveRedundantChains_V2.py")
+RemoveRedundantChains = os.path.join(DataProcessing_dir, "RemoveRedundantChains_V2.py") # PDB
 RandomChainComparisonsAndStatistics = os.path.join(DataProcessing_dir, "RandomChainComparisonsAndStatistics.py")
 # Compare the whole-complex interfaces
 IsolateComplexInterfaces = os.path.join(DataProcessing_dir, "IsolateComplexInterfaces.py")
@@ -51,15 +51,15 @@ if __name__ == "__main__":
     logs_dir = os.path.join(cwd, "Logs")
     if not os.path.exists(logs_dir): os.mkdir(logs_dir)
 
-    # Scrape the periodic table
-    print("Scraping Periodic Table ...")
-    call = f"python -u {ScrapePeriodicTable} '{url}' {os.path.join(cwd, 'IDs.txt')} true > {os.path.join(logs_dir, 'ScrapePeriodicTable_Log.txt')}"
-    os.system(call)
+    # # Scrape the periodic table
+    # print("Scraping Periodic Table ...")
+    # call = f"python -u {ScrapePeriodicTable} '{url}' {os.path.join(cwd, 'IDs.txt')} true > {os.path.join(logs_dir, 'ScrapePeriodicTable_Log.txt')}"
+    # os.system(call)
 
-    # Download the PDBs
-    print("Downloading CIF Files ...")
-    call = f"python -u {DownloadCIFs} {os.path.join(cwd, 'IDs.txt')} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'DownloadCIFs_Log.txt')}"
-    os.system(call)
+    # # Download the PDBs
+    # print("Downloading CIF Files ...")
+    # call = f"python -u {DownloadCIFs} {os.path.join(cwd, 'IDs.txt')} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'DownloadCIFs_Log.txt')}"
+    # os.system(call)
 
     # Make the biological assemblies
     print("Forming Biological Assemblies ...")
