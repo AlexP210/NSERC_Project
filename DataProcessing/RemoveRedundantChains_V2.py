@@ -78,8 +78,10 @@ if __name__ == "__main__":
             path = os.path.join(redundant_chains_directory, cif_filename)
             dup, similar_chains_frame = has_duplicate(path, pdb_list, max_sequence_similarity, max_structure_similarity)
             if dup:
+                print("         Duplicated")
                 pass
             else:
+                print("         Original")
                 pdb_list.append(path)
-                # shutil.copy(path, os.path.join(nonredundant_chains_directory, cif_filename))
+                shutil.copy(path, os.path.join(nonredundant_chains_directory, cif_filename))
     similar_chains_frame.to_csv(similar_chains_path)

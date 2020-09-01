@@ -149,7 +149,7 @@ def calculate_TMScore(pdb_1_path, pdb_2_path, temp_path, alignment = None):
             if line[0:2] == "Al" or line[0:5] == "ERROR":
                 # This is the case that the structure alignment failed (chain alignment is too small)
                 pass
-            if line[0:2] == "TM":
+            if line[0:len("TM-score= ")] == "TM-score= ":
                 TM_score_data = line.split("= ")
                 TM_score = float(TM_score_data[1].split(" ")[0])
                 TM_scores.append(TM_score)
@@ -168,7 +168,7 @@ def get_chain_ids(path):
         chain_letters.append(chain.get_id())
     return chain_letters
 
-def calculate_percent_identity(pdb_1_name, pdb_1_path, pdb_2_name, pdb_2_path, save_alignment_path = None):
+def calculate_percent_identity(pdb_1_name, pdb_1_path, pdb_2_name, pdb_2_path, save_alignment_path = None, print_alignment=False):
     """Calculates % identity for the global alignment between 2 protein sequences
 
     :param pdb_1_path: Path to structure file.
@@ -192,6 +192,7 @@ def calculate_percent_identity(pdb_1_name, pdb_1_path, pdb_2_name, pdb_2_path, s
     alignment = aligner.align(sequence_a, sequence_b)[0]
     aligned_subsequences = alignment.aligned
     nw_score = alignment.score
+    if print_alignment: print(alignment)
     percent_identity = 0
     for subsequence_idx in range(len(aligned_subsequences[0])):
         for residue_idx_a, residue_idx_b in zip(range(*aligned_subsequences[0][subsequence_idx]), range(*aligned_subsequences[1][subsequence_idx])):

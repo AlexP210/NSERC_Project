@@ -56,7 +56,12 @@ if __name__ == "__main__":
     if len(sys.argv) != 4: 
         print(f"\nUsage: $ python {__file__.split('/')[-1]} <url> <chains.txt> <strict>\n")
         sys.exit()
-    url = sys.argv[1]
+    url_raw = sys.argv[1]
+    # This is new - powershell does not know how to pass in the "url" parameter without the double quotes
+    url = ""
+    for c in url_raw:
+        if c != "'": url += c
+
     outfile = sys.argv[2]
     strict = bool(sys.argv[3].lower())
 

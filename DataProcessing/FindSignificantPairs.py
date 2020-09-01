@@ -25,6 +25,7 @@ if __name__ == "__main__":
     cdf_AlignmentScore = ml.create_cdf(random_comparisons["Alignment_Score"])
     cdf_PercentIdentity = ml.create_cdf(random_comparisons["PID"])
     cdf_TMScore = ml.create_cdf(random_comparisons["TM"])
+    cdf_AlignmentScoreAdjusted = ml.create_cdf(random_comparisons["Alignment_Score_Adjusted"])
     
     for species_folder in os.listdir(root_directory):
         print(species_folder)
@@ -43,15 +44,17 @@ if __name__ == "__main__":
             p_AlignmentScores = 1 - cdf_AlignmentScore(heteromer_comparisons["Alignment_Score"])
             p_PercentIdentities = 1 - cdf_PercentIdentity(heteromer_comparisons["PID"])
             p_TMScores = 1 - cdf_TMScore(heteromer_comparisons["TM"])
+            p_AlignmentScoresAdjusted = 1 - cdf_AlignmentScoreAdjusted(heteromer_comparisons["Alignment_Score_Adjusted"])
 
             # Add the significances to the dataframe
             heteromer_comparisons["AlignmentScore_pvalue"] = p_AlignmentScores
             heteromer_comparisons["PID_pvalue"] = p_PercentIdentities
             heteromer_comparisons["TM_pvalue"] = p_TMScores   
+            heteromer_comparisons["AlignmentScoreAdjusted_pvalue"] = p_AlignmentScoresAdjusted
     
         # Save the new csv file
         print("     Saving CSV")
-        save_path = os.path.join(species_directory, "ChainsWithSignificances.csv")
+        save_path = os.path.join(species_directory, "ChainsWithSignificances2.csv")
         heteromer_comparisons.to_csv(save_path, encoding="UTF-8")
 
 
