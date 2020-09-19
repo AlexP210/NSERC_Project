@@ -73,6 +73,8 @@ def is_equivalent(pdb1_filename, pdb2_filename, max_sequence_similarity, max_str
     equivalence_matrix = np.zeros((len(sequences_1), len(sequences_2)))
     for i in range(equivalence_matrix.shape[0]):
         for j in range(equivalence_matrix.shape[1]):
+            print(f"Sequence 1: {sequences_1[i]}")
+            print(f"Sequence 2: {sequences_2[j]}")
             equivalence_matrix[i, j] = ml.global_alignment_score(sequences_1[i], sequences_2[j]) == 1
     equivalence_matrix = np.matrix(equivalence_matrix)
     # If there is a 1-to-1 mapping of chains from structure 1 to structure 2, then the structures
