@@ -14,6 +14,7 @@ if __name__ == "__main__":
     t1_hist = {}
     t2_hist = {}
     t3_hist = {}
+    c = 0
     for species_folder in os.listdir(r"E:\NSERC_Data\Heterotrimers_07_12\Heterotrimer_07-12\Heterotrimers\Data"):
         species_directory = os.path.join(r"E:\NSERC_Data\Heterotrimers_07_12\Heterotrimer_07-12\Heterotrimers\Data", species_folder)
         chains_csv = os.path.join(species_directory, "ChainsWithSignificances2.csv")
@@ -29,9 +30,12 @@ if __name__ == "__main__":
             elif pdb_id in chains_hist:
                 chains_hist[pdb_id].append((row["AlignmentScoreAdjusted_pvalue"] < 0.01) and (row["TM_pvalue"] < 0.01))
         for pdb_id, l in chains_hist.items():
+            c += 1
             if sum(l) == 1: t1_count += 1
             if sum(l) == 2: t2_count += 1
-            if sum(l) == 3: t3_count += 1
+            if sum(l) == 3: 
+                t3_count += 1
+                print(pdb_id)
         t1_hist[species_folder] = t1_count
         t2_hist[species_folder] = t2_count
         t3_hist[species_folder] = t3_count
@@ -39,7 +43,7 @@ if __name__ == "__main__":
     print(sum(t1_hist.values()))
     print(sum(t2_hist.values()))
     print(sum(t3_hist.values()))
-
+    print(c)
 
         
 
