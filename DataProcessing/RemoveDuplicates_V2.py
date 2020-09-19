@@ -31,6 +31,7 @@ def is_equivalent(pdb1_filename, pdb2_filename, max_sequence_similarity, max_str
     global sequence_cache
     global temp_path
     # Get the pdb_ids
+    print(f"COMPARING {pdb1_filename} to {pdb2_filename}")
     pdb_id_1 = os.path.basename(pdb1_filename).split(".")[0]
     pdb_id_2 = os.path.basename(pdb2_filename).split(".")[0]
     # Set the parsers
