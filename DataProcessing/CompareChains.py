@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
         with open(csv_path, "w") as output_file:
             # Create and write the header for the csv
-            header = "PDB_ID,Chain_1,Chain_2,Chain_1_Length,Chain_2_Length,Length_Difference,Alignment_Score,Alignment_Score_Adjusted,PID,TM"
+            header = "PDB_ID,Chain_1,Chain_2,Chain_1_Length,Chain_2_Length,Length_Difference,Alignment_Score,Alignment_Score_Adjusted,PID,TM,TM_Rotation,TM_Translation"
             for symmetry_group in symmetry_groups:
                 header += f", {symmetry_group.upper()}_RMSD"
             header += "\n"
@@ -65,12 +65,13 @@ if __name__ == "__main__":
                         nw_score, percent_identity = calculate_percent_identity(f"{pdb_id}_{chain_a_letter}", chain_a_path, f"{pdb_id}_{chain_b_letter}", chain_b_path, os.path.join(temp_dir, "Global_Alignment.fasta"))
                         # TM-Align Score
                         structure_similarity = calculate_TMScore(chain_a_path, chain_b_path, os.path.join(temp_dir, "TMAlign_Output.txt"), alignment = os.path.join(temp_dir, "Global_Alignment.fasta"))
+                        x_rot, y_rot, z_rot, rotation_angle, x_trans, y_trans, z_trans, trans_mag = ml.calculate_rotation_angles(os.path.join(temp_dir, "TMAlign_Output.txt"))
                         # Symmetry RMSD
                         symmetry_rmsds = calculate_symmetry_rmsd(complex_path, symmetry_groups, os.path.join(temp_dir, "AnAnaS_Output.txt"))
                         # Save the data
                         length_a = len(load_sequence(chain_a_path))
                         length_b = len(load_sequence(chain_b_path))
-                        line = f"{pdb_id},{chain_letters[sequence_a_idx]},{chain_letters[sequence_b_idx]},{length_a},{length_b},{abs(length_a - length_b)},{nw_score},{nw_score/max(length_a, length_b)},{percent_identity},{structure_similarity}"
+                        line = f"{pdb_id},{chain_letters[sequence_a_idx]},{chain_letters[sequence_b_idx]},{length_a},{length_b},{abs(length_a - length_b)},{nw_score},{nw_score/max(length_a, length_b)},{percent_identity},{structure_similarity},{rotation_angle},{trans_mag}"
                         for symmetry_rmsd in symmetry_rmsds:
                             line += f", {symmetry_rmsd}"
                         print(line)
