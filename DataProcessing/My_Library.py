@@ -73,6 +73,9 @@ def calculate_rotation_angles(path_to_matrix):
     return x_rot, y_rot, z_rot, rotation_angle, x_trans, y_trans, z_trans, trans_mag
 
 def global_alignment_score(sequence_a, sequence_b):
+    # Temp fix:
+    if sequence_a == "" or sequence_b == "":
+        return None
     alignment = align.globaldx(sequence_a, sequence_b, matlist.pam60, one_alignment_only=True)[0]
     seq_score = 0
     for i in range(len(alignment[0])):
