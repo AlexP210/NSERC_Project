@@ -14,14 +14,13 @@ from math import atan2, acos
 from scipy.spatial.transform import Rotation
 import math
 import time
+import My_Library as ml
 
 from My_Library import *
 
 if __name__ == "__main__":
     # Check arguments
     if len(sys.argv) < 3:
-        print(len(sys.argv))
-        print(sys.argv)
         print(f"\nUsage: $ python {__file__.split('/')[-1]} <Species Root Directory> <Symmetry Groups>\n")
         sys.exit()
     root_directory = sys.argv[1]
