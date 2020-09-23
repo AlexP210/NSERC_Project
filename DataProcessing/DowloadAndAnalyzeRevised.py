@@ -43,7 +43,8 @@ if __name__ == "__main__":
     max_sequence_similarity = sys.argv[4]
     max_structural_similarity = sys.argv[5]
     distance_cutoff = float(sys.argv[6])
-    symmetry_groups = " ".join(sys.argv[7:-1])
+    if len(sys.argv) > 8: symmetry_groups = " ".join(sys.argv[7:-1])
+    elif len(sys.argv) == 8: symmetry_groups = sys.argv[7]
 
     # Activate the environment, get the cwd, set up folder for logs
     print("Initializing ...")
