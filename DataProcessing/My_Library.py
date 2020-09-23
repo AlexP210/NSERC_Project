@@ -160,7 +160,8 @@ def calculate_TMScore(pdb_1_path, pdb_2_path, temp_path, alignment = None):
         TM_score = min(TM_scores)
     else:
         TM_score = -1
-    os.remove(temp_path)
+    # Why do i have this next line:
+    # os.remove(temp_path)
     return TM_score
 
 def get_chain_ids(path):
