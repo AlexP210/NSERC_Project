@@ -127,7 +127,7 @@ def _parse_rotation_matrix(path_to_matrix):
             translation_vector.append(matrix_row[0])
     return matrix, translation_vector
 
-def calculate_TMScore(pdb_1_path, pdb_2_path, temp_path, alignment = None):
+def calculate_TMScore(pdb_1_path, pdb_2_path, temp_path, alignment = None, matrix_out = None):
     """Calculates the optimal structure alignment between two structures, and outputs the TM-Align score.
 
     :param pdb_1_path: Path to one structure
@@ -144,6 +144,8 @@ def calculate_TMScore(pdb_1_path, pdb_2_path, temp_path, alignment = None):
     call = f"TMalign {pdb_1_path} {pdb_2_path}"
     if alignment != None:
         call += f" -I {alignment}"
+    if matrix_out != None:
+        call += f" -m {matrix_out}"
     call += f" > {temp_path}"
     os.system(call)
     with open(temp_path, "r") as alignment_output:

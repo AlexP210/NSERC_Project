@@ -65,8 +65,8 @@ if __name__ == "__main__":
                         # Percent identity
                         nw_score, percent_identity = calculate_percent_identity(f"{pdb_id}_{chain_a_letter}", chain_a_path, f"{pdb_id}_{chain_b_letter}", chain_b_path, os.path.join(temp_dir, "Global_Alignment.fasta"))
                         # TM-Align Score
-                        structure_similarity = calculate_TMScore(chain_a_path, chain_b_path, os.path.join(temp_dir, "TMAlign_Output.txt"), alignment = os.path.join(temp_dir, "Global_Alignment.fasta"))
-                        x_rot, y_rot, z_rot, rotation_angle, x_trans, y_trans, z_trans, trans_mag = ml.calculate_rotation_angles(os.path.join(temp_dir, "TMAlign_Output.txt"))
+                        structure_similarity = calculate_TMScore(chain_a_path, chain_b_path, os.path.join(temp_dir, "TMAlign_Output.txt"), alignment = os.path.join(temp_dir, "Global_Alignment.fasta"), matrix_out=os.path.join(temp_dir, "TMAlign_Matrix.txt"))
+                        x_rot, y_rot, z_rot, rotation_angle, x_trans, y_trans, z_trans, trans_mag = ml.calculate_rotation_angles(os.path.join(temp_dir, "TMAlign_Matrix.txt"))
                         # Symmetry RMSD
                         symmetry_rmsds = calculate_symmetry_rmsd(complex_path, symmetry_groups, os.path.join(temp_dir, "AnAnaS_Output.txt"))
                         # Save the data
