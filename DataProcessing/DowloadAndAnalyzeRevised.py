@@ -106,6 +106,7 @@ if __name__ == "__main__":
     # # Find Significant Pairs
     print("Finding significant pairs ...")
     call = f"python -u {FindSignificantPairs} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'FindSignificantPairs_Log.txt')}"
+    os.system(call)
 
 
     # # # Isolate complex interfaces
