@@ -16,7 +16,8 @@ CleanStructures = os.path.join(DataProcessing_dir, "CleanStructures_V2.py") # CI
 SeparateChains = os.path.join(DataProcessing_dir, "SeparateChains.py") # PDB
 CompareChains = os.path.join(DataProcessing_dir, "CompareChains.py")
 RemoveRedundantChains = os.path.join(DataProcessing_dir, "RemoveRedundantChains_V2.py") # PDB
-RandomChainComparisonsAndStatistics = os.path.join(DataProcessing_dir, "RandomChainComparisonsAndStatistics.py")
+RandomComparisons = os.path.join(DataProcessing_dir, "RandomComparisons_V4.py")
+FindSignificantPairs = os.path.join(DataProcessing_dir, "FindSignificantPairs.py")
 # Compare the whole-complex interfaces
 IsolateComplexInterfaces = os.path.join(DataProcessing_dir, "IsolateComplexInterfaces.py")
 RemoveEmptyComplexInterfaces = os.path.join(DataProcessing_dir, "RemoveEmptyInterfaces.py")
@@ -87,35 +88,40 @@ if __name__ == "__main__":
     # call = f"python -u {SeparateChains} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'ExtractChains_Log.txt')}"
     # os.system(call)
 
-    # # Compare the chains
-    print("Comparing Chains ...")
-    call = f"python -u {CompareChains} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareChains_Log.txt')}"
-    os.system(call)
+    # # # Compare the chains
+    # print("Comparing Chains ...")
+    # call = f"python -u {CompareChains} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareChains_Log.txt')}"
+    # os.system(call)
 
-    # # Filter Redundant Chains
-    print("Filtering Redundant Chains ...")
-    call = f"python -u {RemoveRedundantChains} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantChains_Log.txt')}"
-    os.system(call)
+    # # # Filter Redundant Chains
+    # print("Filtering Redundant Chains ...")
+    # call = f"python -u {RemoveRedundantChains} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantChains_Log.txt')}"
+    # os.system(call)
 
     # # Random Comparisons
     print("Comparing random chains ...")
-    call = f"python -u {RandomChainComparisonsAndStatistics} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
+    call = f"python -u {RandomComparisons} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
     os.system(call)
 
-    # # Isolate complex interfaces
-    print("Extracting interfaces ...")
-    call = f"python -u {IsolateComplexInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'IsolateComplexInterfaces_Log.txt')}"
-    os.system(call)
-
-    # # Separate complex interfaces
-    print("Separating interfaces ...")
-    call = f"python -u {SeparateComplexInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'SeparateComplexInterfaces_Log.txt')}"
-    os.system(call)
+    # # Find Significant Pairs
+    print("Finding significant pairs ...")
+    call = f"python -u {FindSignificantPairs} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'FindSignificantPairs_Log.txt')}"
 
 
-    # # Compare interfaces
-    print("Comparing interfaces ...")
-    call = f"python -u {CompareComplexInterfaces} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareComplexInterfaces_Log.txt')}"
-    os.system(call)
+    # # # Isolate complex interfaces
+    # print("Extracting interfaces ...")
+    # call = f"python -u {IsolateComplexInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'IsolateComplexInterfaces_Log.txt')}"
+    # os.system(call)
+
+    # # # Separate complex interfaces
+    # print("Separating interfaces ...")
+    # call = f"python -u {SeparateComplexInterfaces} {os.path.join(cwd, 'Data')} {distance_cutoff} > {os.path.join(logs_dir, 'SeparateComplexInterfaces_Log.txt')}"
+    # os.system(call)
+
+
+    # # # Compare interfaces
+    # print("Comparing interfaces ...")
+    # call = f"python -u {CompareComplexInterfaces} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareComplexInterfaces_Log.txt')}"
+    # os.system(call)
 
     print("Done")
