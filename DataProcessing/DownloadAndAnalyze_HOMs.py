@@ -90,29 +90,24 @@ if __name__ == "__main__":
     call = f"python -u {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
     os.system(call)
 
-    # # Extract the chains
-    print("Extracting Chains ...")
-    call = f"python -u {SeparateChains} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'ExtractChains_Log.txt')}"
-    os.system(call)
-
-    # # Compare the chains
-    print("Comparing Chains ...")
-    call = f"python -u {CompareChains} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareChains_Log.txt')}"
+    # # Compare the HOMs
+    print("Comparing HOMs ...")
+    call = f"python -u {CompareHOMs} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareHOMs_Log.txt')}"
     os.system(call)
 
     # # Filter Redundant Chains
-    print("Filtering Redundant Chains ...")
-    call = f"python -u {RemoveRedundantChains} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantChains_Log.txt')}"
+    print("Filtering Redundant HOMs ...")
+    call = f"python -u {RemoveRedundantHOMs} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantHOMs_Log.txt')}"
     os.system(call)
 
     # # Random Comparisons
-    print("Comparing random chains ...")
-    call = f"python -u {RandomComparisons} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
+    print("Comparing random HOMs ...")
+    call = f"python -u {RandomComparisons_HOMs} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisonsHOMs_Log.txt')}"
     os.system(call)
 
     # # Find Significant Pairs
     print("Finding significant pairs ...")
-    call = f"python -u {FindSignificantPairs} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'FindSignificantPairs_Log.txt')}"
+    call = f"python -u {FindSignificantPairs_HOMS} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'FindSignificantPairsHOMs_Log.txt')}"
     os.system(call)
 
 
