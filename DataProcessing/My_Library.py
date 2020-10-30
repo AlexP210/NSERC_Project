@@ -414,6 +414,33 @@ def clean_structure(pdb_path, save_path):
     io.save(save_path, select=Cleaner())
 
     return True
+
+def clean_structure_HOMs(pdb_path, save_path):
+
+    # Class to select non-HET residues
+    class Cleaner(Select):
+        def accept_residue(self, residue):
+            if one_letter_code(residue.get_resname()) == "":
+                return 0
+            else:
+                return 1
+
+    # Make the right parser and IO objects
+    extension = os.path.basename(pdb_path).split(".")[-1]
+    if extension == "cif": 
+        parser = MMCIFParser(QUIET=True)
+        io = PDBIO()
+    elif extension == "ent": 
+        parser = PDBParser(QUIET=True)
+        io = PDBIO()
+
+    # Load the structure
+    s = parser.get_structure("cleaning", pdb_path)
+    # Save the structure
+    io.set_structure(s)
+    io.save(save_path, select=Cleaner())
+
+    return True
     
 def statisticalize(pca, dataframe, features, pre_pca_means, pre_pca_stdevs, post_pca_means, post_pca_stdevs):
     # # Log transform
