@@ -29,5 +29,5 @@ if __name__ == "__main__":
             pdb_id = cif_filename.split(".")[0]
             print(f"     {pdb_id}")
             dirty_cif_path = os.path.join(dirty_structures_directory, cif_filename)
-            clean_cif_path = os.path.join(clean_structures_directory, cif_filename)
+            clean_cif_path = os.path.join(clean_structures_directory, f"{pdb_id}.pdb")
             ml.clean_structure_HOMs(dirty_cif_path, clean_cif_path)
