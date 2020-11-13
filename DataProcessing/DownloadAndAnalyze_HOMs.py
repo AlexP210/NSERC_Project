@@ -8,6 +8,7 @@ DataProcessing_dir = f"{os.path.dirname(__file__)}"
 # Set-Up
 ScrapePeriodicTable = os.path.join(DataProcessing_dir, "ScrapePeriodicTable_V2.py")
 DownloadCIFs = os.path.join(DataProcessing_dir, "DownloadCIFs_V2.py") # CIF
+RenameFolders = os.path.join(DataProcessing_dir, "RenameFolders.py")
 BiologicalAssemblies = os.path.join(DataProcessing_dir, "BiologicalAssemblies_V2.py") # CIF
 PickRepresentativeAssembly = os.path.join(DataProcessing_dir, "PickRepresentativeAssembly.py") # CIF
 RemoveDuplicates = os.path.join(DataProcessing_dir, "RemoveDuplicates_V2.py") # CIF
@@ -69,6 +70,11 @@ if __name__ == "__main__":
     # print("Downloading CIF Files ...")
     # call = f"python -u {DownloadCIFs} {os.path.join(cwd, 'IDs.txt')} {os.path.join(cwd, 'Data')} {n_monomers} > {os.path.join(logs_dir, 'DownloadCIFs_Log.txt')}"
     # os.system(call)
+
+    # Sanitize the Folder names
+    print("Sanitizing Folder Names ...")
+    call = f"python -u {RenameFolders} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'RenameFolders_Log.txt')}"
+    os.system(call)
 
     # Make the biological assemblies
     print("Forming Biological Assemblies ...")
