@@ -1,6 +1,7 @@
 
 import sys
 import os
+import shutil
 
 if __name__ == "__main__":
     root_directory = sys.argv[1]
@@ -11,5 +12,6 @@ if __name__ == "__main__":
             if c in"_ABCDEDGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz":
                 sanitized += c
         sanitized_dir = os.path.join(root_directory, sanitized)
-        os.rename(species_dir, sanitized_dir)
+        shutil.move(species_dir, sanitized_dir)
+        os.rmdir(species_dir)
         
