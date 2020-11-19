@@ -13,5 +13,5 @@ if __name__ == "__main__":
                 sanitized += c
         sanitized_dir = os.path.join(root_directory, sanitized)
         shutil.move(species_dir, sanitized_dir)
-        shutil.rmtree(species_dir)
+        # shutil.rmtree(species_dir)
         
