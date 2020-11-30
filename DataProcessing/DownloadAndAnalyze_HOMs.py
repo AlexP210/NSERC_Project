@@ -71,40 +71,40 @@ if __name__ == "__main__":
     # call = f"python -u {DownloadCIFs} {os.path.join(cwd, 'IDs.txt')} {os.path.join(cwd, 'Data')} {n_monomers} > {os.path.join(logs_dir, 'DownloadCIFs_Log.txt')}"
     # os.system(call)
 
-    # Sanitize the Folder names
-    print("Sanitizing Folder Names ...")
-    call = f"python -u {RenameFolders} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'RenameFolders_Log.txt')}"
-    os.system(call)
+    # # Sanitize the Folder names
+    # print("Sanitizing Folder Names ...")
+    # call = f"python -u {RenameFolders} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'RenameFolders_Log.txt')}"
+    # os.system(call)
 
-    # Make the biological assemblies
-    print("Forming Biological Assemblies ...")
-    call = f"python -u {BiologicalAssemblies} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'BiologicalAssemblies_Log.txt')}"
-    os.system(call)
+    # # Make the biological assemblies
+    # print("Forming Biological Assemblies ...")
+    # call = f"python -u {BiologicalAssemblies} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'BiologicalAssemblies_Log.txt')}"
+    # os.system(call)
 
-    # Pick the representative biological assembly for each PDB
-    print("Picking Representative Assemblies ...")
-    call = f"python -u {PickRepresentativeAssembly} {os.path.join(cwd, 'Data')} {n_monomers} > {os.path.join(logs_dir, 'PickRepresentativeAssembly_Log.txt')}"
-    os.system(call)
+    # # Pick the representative biological assembly for each PDB
+    # print("Picking Representative Assemblies ...")
+    # call = f"python -u {PickRepresentativeAssembly} {os.path.join(cwd, 'Data')} {n_monomers} > {os.path.join(logs_dir, 'PickRepresentativeAssembly_Log.txt')}"
+    # os.system(call)
 
-    # Remove the duplicated PDBs
-    print("Removing Duplicates ...")
-    call = f"python -u {RemoveDuplicates} {os.path.join(cwd, 'Data')} 1 1 > {os.path.join(logs_dir, 'RemoveDuplicates_Log.txt')}"
-    os.system(call)
+    # # Remove the duplicated PDBs
+    # print("Removing Duplicates ...")
+    # call = f"python -u {RemoveDuplicates} {os.path.join(cwd, 'Data')} 1 1 > {os.path.join(logs_dir, 'RemoveDuplicates_Log.txt')}"
+    # os.system(call)
 
-    # Clean the PDBs
-    print("Cleaning structures ...")
-    call = f"python -u {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
-    os.system(call)
+    # # Clean the PDBs
+    # print("Cleaning structures ...")
+    # call = f"python -u {CleanStructures} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'CleanStructures_Log.txt')}"
+    # os.system(call)
 
-    # # Compare the HOMs
-    print("Comparing HOMs ...")
-    call = f"python -u {CompareHOMs} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareHOMs_Log.txt')}"
-    os.system(call)
+    # # # Compare the HOMs
+    # print("Comparing HOMs ...")
+    # call = f"python -u {CompareHOMs} {os.path.join(cwd, 'Data')} {symmetry_groups} > {os.path.join(logs_dir, 'CompareHOMs_Log.txt')}"
+    # os.system(call)
 
-    # # Filter Redundant Chains
-    print("Filtering Redundant HOMs ...")
-    call = f"python -u {RemoveRedundantHOMs} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantHOMs_Log.txt')}"
-    os.system(call)
+    # # # Filter Redundant Chains
+    # print("Filtering Redundant HOMs ...")
+    # call = f"python -u {RemoveRedundantHOMs} {os.path.join(cwd, 'Data')} {max_sequence_similarity} {max_structural_similarity} > {os.path.join(logs_dir, 'FilterRedundantHOMs_Log.txt')}"
+    # os.system(call)
 
     # # Random Comparisons
     print("Comparing random HOMs ...")
