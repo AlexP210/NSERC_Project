@@ -79,9 +79,9 @@ if __name__ == "__main__":
         HOM_idx_b = rand.randint(0, len(HOM_names)-1)
 
         pdb_id_a = HOM_names[HOM_idx_a][:4].lower()
-        pdb_a_filename = f"{pdb_id_a}.ent"
+        pdb_a_filename = f"{pdb_id_a}.pdb"
         pdb_id_b = HOM_names[HOM_idx_b][:4].lower()
-        pdb_b_filename = f"{pdb_id_b}.ent"
+        pdb_b_filename = f"{pdb_id_b}.pdb"
 
         # If we have a bad choice, pick a new one
         while HOM_idx_a == HOM_idx_b or f"{pdb_id_a}{pdb_id_b}" in compared or f"{pdb_id_b}{pdb_id_a}" in compared:
@@ -89,15 +89,15 @@ if __name__ == "__main__":
             HOM_idx_b = rand.randint(0, len(HOM_names)-1)
 
             pdb_id_a = HOM_names[HOM_idx_a][:4].lower()
-            pdb_a_filename = f"{pdb_id_a}.cif"
+            pdb_a_filename = f"{pdb_id_a}.pdb"
             pdb_id_b = HOM_names[HOM_idx_b][:4].lower()
-            pdb_b_filename = f"{pdb_id_b}.cif"        
+            pdb_b_filename = f"{pdb_id_b}.pdb"        
         compared.add(f"{pdb_id_a}{pdb_id_b}")
 
         print(f"Processing: {pdb_id_a} vs {pdb_id_b} # {i + 1}")
         # Get the paths to the chains, and the overall complex
-        pdb_a_path = os.path.join(HOMs_directory, f"{pdb_id_a}.cif")
-        pdb_b_path = os.path.join(HOMs_directory, f"{pdb_id_b}.cif")
+        pdb_a_path = os.path.join(HOMs_directory, f"{pdb_id_a}.pdb")
+        pdb_b_path = os.path.join(HOMs_directory, f"{pdb_id_b}.pdb")
         chain_a_length = len(load_sequence(pdb_a_path))
         chain_b_length = len(load_sequence(pdb_b_path))
         # Percent identity
