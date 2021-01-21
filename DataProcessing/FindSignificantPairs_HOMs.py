@@ -56,5 +56,3 @@ if __name__ == "__main__":
         print("     Saving CSV")
         save_path = os.path.join(species_directory, "HOMsWithSignificancesAND.csv")
         heteromer_comparisons.to_csv(save_path, encoding="UTF-8")
-
-
