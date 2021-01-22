@@ -23,7 +23,6 @@ if __name__ == "__main__":
             download = True
             # Get the info for this pdb
             pdb_id = line[:4]
-            print(pdb_id)
             info = pypdb.get_all_info(pdb_id)
             # Initialize our list of lists for the species from which each chain comes
             species_for_chains = []
