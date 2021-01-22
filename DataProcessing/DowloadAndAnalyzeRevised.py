@@ -7,7 +7,7 @@ DataProcessing_dir = f"{os.path.dirname(__file__)}"
 # Processing Scripts
 # Set-Up
 ScrapePeriodicTable = os.path.join(DataProcessing_dir, "ScrapePeriodicTable_V2.py")
-DownloadCIFs = os.path.join(DataProcessing_dir, "DownloadCIFs_V2.py") # CIF
+DownloadCIFs = os.path.join(DataProcessing_dir, "DownloadCIFs_V3.py") # CIF
 BiologicalAssemblies = os.path.join(DataProcessing_dir, "BiologicalAssemblies_V2.py") # CIF
 PickRepresentativeAssembly = os.path.join(DataProcessing_dir, "PickRepresentativeAssembly.py") # CIF
 RemoveDuplicates = os.path.join(DataProcessing_dir, "RemoveDuplicates_V2.py") # CIF
