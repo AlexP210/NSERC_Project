@@ -42,7 +42,7 @@ if __name__ == "__main__":
                 entity_info = pypdb.get_all_info(f"{pdb_id}/{entity}", url_root="http://data.rcsb.org/rest/v1/core/polymer_entity/")
                 # Veryify the current entity is a protein
                 if entity_info["entity_poly"]["rcsb_entity_polymer_type"] != "Protein": continue
-                species_for_entity = [entity_info["rcsb_entity_source_organism"][i]["ncbi_scientific_name"] for i in range(len(entity_info["rcsb_entity_source_organism"])),]
+                species_for_entity = [entity_info["rcsb_entity_source_organism"][i]["ncbi_scientific_name"] for i in range(len(entity_info["rcsb_entity_source_organism"]))]
                 species_for_chains.append(species_for_entity)
             # Check if there is one organism in which all chains are found
             exists_path, species_name = ml.find_species(species_for_chains)
