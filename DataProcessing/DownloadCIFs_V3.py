@@ -27,7 +27,7 @@ if __name__ == "__main__":
             # Get the info for this pdb
             pdb_id = line[:4]
             info = pypdb.get_all_info(pdb_id)
-            # Initialize our list of lists for the species from which each chain comes
+            # Initialize our container; is a list of list, showing the source species for each chain
             species_for_chains = []
             # If "polymer" is not a list, make it one. If it has different number of 
             # entities than the number of monomers, do not continue with it
@@ -40,18 +40,19 @@ if __name__ == "__main__":
             # Go through each entity, and check the species of the protein entities
             for entity in entities:
                 entity_info = pypdb.get_all_info(f"{pdb_id}/{entity}", url_root="http://data.rcsb.org/rest/v1/core/polymer_entity/")
-                # Verify the current entity is a protein
+                # Verify the current entity is a protein before we go on
                 if entity_info["entity_poly"]["rcsb_entity_polymer_type"] != "Protein": continue
                 # Go through each source organism for this entity, and if it's a natural source, save it
                 species_for_entity = []
-                for source_idx in range(len(entity_info["rcsb_entity_source_organism"])):
-                    if entity_info["rcsb_entity_source_organism"][source_idx]["source_type"] == "natural":
-                        species_for_entity.append(entity_info["rcsb_entity_source_organism"][source_idx]["ncbi_scientific_name"])
+                number_of_natural_chains = 0
+                for source in entity_info["rcsb_entity_source_organism"]:
+                    if source["source_type"] == "natural":
+                        species_for_entity.append(source["ncbi_scientific_name"])
+                        number_of_natural_chains += 1
                 species_for_chains.append(species_for_entity)
-            # Make sure there are "n_monomers" number of naturally-sourced chains
-            if len(species_for_chains) != n_monomers: download = False
+            # Check if the number of natural chains matches the number of monomers of the symmetry group
+            if number_of_natural_chains != n_monomers: download = False
             # Check if there is one organism in which all chains are found
-            print(species_for_chains)
             exists_path, species_name = ml.find_species(species_for_chains)
             if not exists_path: download = False
 

@@ -527,6 +527,16 @@ def increment_index_state(index_state, species_for_chains):
     return tuple(index_state)
  
 def find_species(species_for_chains):
+    # # # This function is generalized to work for n-mers, where we don't know how many sub-lists there are # # #
+    # Can try implementing recursion later
+
+    # Check if we actually have species for all the chains. If not, return False, None to avoid IndexError
+    if sum([species_list == [] for species_list in chains_for_species]) > 0: return False, None
+    # 1. Pick a species for the first chain, call this species A
+    # 2. Look at all the species in the next chain, see if any of them match species A
+    # 3. If yes, go to the next chain. If no, go back to the previous chain and pick the next species
+    # 4. If we can "find a path" through all the chains, then return True, and that species.
+    # 5. If we do not find a path, return False and None
     index_state = tuple( (0 for _ in range(len(species_for_chains))) )
     initial = True
     while initial or index_state != tuple( (0 for _ in range(len(species_for_chains))) ):
