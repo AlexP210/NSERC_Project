@@ -72,9 +72,15 @@ if __name__ == "__main__":
                 if not os.path.exists(download_folder_path):
                     os.mkdir(download_folder_path)
                 # if we don't have the pdb, download it
+                # Problem: Obsolete PDBs are not downlaodable; cannot distinguish between an obsolete ID and failed connection
+                # Solution: If it doesn't work, note in the log that it MAY be obsolete
+                #           For now, will have to confirm it manually (it's likely true; lab internet connection is wired)
                 if not os.path.isfile(os.path.join(download_folder_path, f"{pdb_id}.cif")):
-                    print(f"Downloading {pdb_id}.cif")
-                    pdb_fn = pdbList.retrieve_pdb_file(pdb_id, pdir=download_folder_path, file_format="mmCif")
+                    try:
+                        print(f"Downloading {pdb_id}.cif")
+                        pdb_fn = pdbList.retrieve_pdb_file(pdb_id, pdir=download_folder_path, file_format="mmCif")
+                    except AttributeError:
+                        print(f"OBSOLETE_WARNING: {pdb_id} MAY be obsolete. Confirm this on the PDB site.")   
                 else:
                     print(f"Already have {pdb_id}.cif")
                 # If we tripped download = False, then exclude that structure
