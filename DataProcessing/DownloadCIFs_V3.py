@@ -45,7 +45,7 @@ if __name__ == "__main__":
                 # Verify that at least one source for the current entity is natural
                 if not "natural" in [entity_info["rcsb_entity_source_organism"][i]["source_type"]]: continue
                 # Go through each source organism for this entity, and if it's a natural source, save it
-                species_for_entity = [entity_info["rcsb_entity_source_organism"][i]["ncbi_scientific_name"] for i in range(len(entity_info["rcsb_entity_source_organism"])) if entity_info["rcsb_entity_source_organism"][i]["source_type"] == "natural"]
+                species_for_entity = [entity_info["rcsb_entity_source_organism"][i]["ncbi_scientific_name"] if entity_info["rcsb_entity_source_organism"][i]["source_type"] == "natural" for i in range(len(entity_info["rcsb_entity_source_organism"]))]
                 species_for_chains.append(species_for_entity)
             # Make sure there are n_monomers number of naturally-sourced chains
             if len(species_for_chains) != n_monomers: download = False
