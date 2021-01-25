@@ -531,7 +531,7 @@ def find_species(species_for_chains):
     # Can try implementing recursion later
 
     # Check if we actually have species for all the chains. If not, return False, None to avoid IndexError
-    if sum([species_list == [] for species_list in chains_for_species]) > 0: return False, None
+    if sum([species_list == [] for species_list in species_for_chains]) > 0: return False, None
     # 1. Pick a species for the first chain, call this species A
     # 2. Look at all the species in the next chain, see if any of them match species A
     # 3. If yes, go to the next chain. If no, go back to the previous chain and pick the next species
