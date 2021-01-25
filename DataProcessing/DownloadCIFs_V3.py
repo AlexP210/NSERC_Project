@@ -42,15 +42,13 @@ if __name__ == "__main__":
                 entity_info = pypdb.get_all_info(f"{pdb_id}/{entity}", url_root="http://data.rcsb.org/rest/v1/core/polymer_entity/")
                 # Verify the current entity is a protein
                 if entity_info["entity_poly"]["rcsb_entity_polymer_type"] != "Protein": continue
-                # Verify that at least one source for the current entity is natural
-                if not "natural" in [entity_info["rcsb_entity_source_organism"][i]["source_type"]]: continue
                 # Go through each source organism for this entity, and if it's a natural source, save it
                 species_for_entity = []
                 for source_idx in range(len(entity_info["rcsb_entity_source_organism"])):
                     if entity_info["rcsb_entity_source_organism"][source_idx]["source_type"] == "natural":
                         species_for_entity.append(entity_info["rcsb_entity_source_organism"][source_idx]["ncbi_scientific_name"])
                 species_for_chains.append(species_for_entity)
-            # Make sure there are n_monomers number of naturally-sourced chains
+            # Make sure there are "n_monomers" number of naturally-sourced chains
             if len(species_for_chains) != n_monomers: download = False
             # Check if there is one organism in which all chains are found
             exists_path, species_name = ml.find_species(species_for_chains)
