@@ -46,7 +46,7 @@ if __name__ == "__main__":
                 if not "natural" in [entity_info["rcsb_entity_source_organism"][i]["source_type"]]: continue
                 # Go through each source organism for this entity, and if it's a natural source, save it
                 species_for_entity = []
-                for source_idx in range(len(entity_info["rcsb_entity_source_organism"]))
+                for source_idx in range(len(entity_info["rcsb_entity_source_organism"])):
                     if entity_info["rcsb_entity_source_organism"][source_idx]["source_type"] == "natural":
                         species_for_entity.append(entity_info["rcsb_entity_source_organism"][source_idx]["ncbi_scientific_name"])
                 species_for_chains.append(species_for_entity)
