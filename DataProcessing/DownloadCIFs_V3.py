@@ -45,6 +45,8 @@ if __name__ == "__main__":
                 # Go through each source organism for this entity, and if it's a natural source, save it
                 species_for_entity = []
                 number_of_natural_chains = 0
+                # Some protein chains don't actually have a species (small protein ligands) - verify to avoid KeyError, and skip this entity
+                if not "rcsb_entity_source_organism" in entity_info.keys(): continue
                 for source in entity_info["rcsb_entity_source_organism"]:
                     if source["source_type"] == "natural":
                         species_for_entity.append(source["ncbi_scientific_name"])
