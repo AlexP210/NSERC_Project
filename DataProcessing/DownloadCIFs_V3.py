@@ -51,6 +51,7 @@ if __name__ == "__main__":
             # Make sure there are "n_monomers" number of naturally-sourced chains
             if len(species_for_chains) != n_monomers: download = False
             # Check if there is one organism in which all chains are found
+            print(species_for_chains)
             exists_path, species_name = ml.find_species(species_for_chains)
             if not exists_path: download = False
 
