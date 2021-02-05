@@ -64,7 +64,7 @@ if __name__ == "__main__":
             # Check if the number of natural chains matches the number of monomers of the symmetry group
             if number_of_natural_chains != n_monomers: 
                 download = False
-                print("Incorrect number of natural monomers")
+                print(f"Incorrect number of natural monomers: {number_of_natural_chains}")
             # Check if there is one organism in which all chains are found
             exists_path, species_name = ml.find_species(species_for_chains)
             if not exists_path: 
