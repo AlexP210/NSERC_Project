@@ -39,6 +39,7 @@ if __name__ == "__main__":
             # entities than the number of monomers, do not continue with it
             if int(info["rcsb_entry_info"]["polymer_entity_count_protein"]) != n_monomers:
                 download = False
+                print("Incorrect number of monomers.")
             # Get the number of assemblies for this structure
             n_assemblies = info["rcsb_entry_container_identifiers"]["assembly_ids"]
             # Get the names of the entities in this structure (These are NOT NECESSARILY the chains- could be licands, nucleic acids, etc)
@@ -47,7 +48,8 @@ if __name__ == "__main__":
             for entity in entities:
                 entity_info = pypdb.get_all_info(f"{pdb_id}/{entity}", url_root="http://data.rcsb.org/rest/v1/core/polymer_entity/")
                 # Verify the current entity is a protein before we go on
-                if entity_info["entity_poly"]["rcsb_entity_polymer_type"] != "Protein": continue
+                if entity_info["entity_poly"]["rcsb_entity_polymer_type"] != "Protein": 
+                    continue
                 # Go through each source organism for this entity, and if it's a natural source, save it
                 species_for_entity = []
                 number_of_natural_chains = 0
@@ -59,10 +61,14 @@ if __name__ == "__main__":
                         number_of_natural_chains += 1
                 species_for_chains.append(species_for_entity)
             # Check if the number of natural chains matches the number of monomers of the symmetry group
-            if number_of_natural_chains != n_monomers: download = False
+            if number_of_natural_chains != n_monomers: 
+                download = False
+                print("Incorrect number of natural monomers")
             # Check if there is one organism in which all chains are found
             exists_path, species_name = ml.find_species(species_for_chains)
-            if not exists_path: download = False
+            if not exists_path: 
+                download = False
+                print("No species from which all chains originate.")
 
             # Get the species name, if there is one
             # NOTE: Right now, the chain-species mapping {"A":[H Sapiens, E Coli], "B":[H Sapiens, E Coli]}
