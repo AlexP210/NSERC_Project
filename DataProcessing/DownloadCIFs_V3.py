@@ -56,6 +56,7 @@ if __name__ == "__main__":
                 # Some protein chains don't actually have a species (small protein ligands) - verify to avoid KeyError, and skip this entity
                 if not "rcsb_entity_source_organism" in entity_info.keys(): continue
                 for source in entity_info["rcsb_entity_source_organism"]:
+                    print(source["source_type"])
                     if source["source_type"] == "natural":
                         species_for_entity.append(source["ncbi_scientific_name"])
                         number_of_natural_chains += 1
