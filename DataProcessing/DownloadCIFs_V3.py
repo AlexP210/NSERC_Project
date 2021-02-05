@@ -28,7 +28,10 @@ if __name__ == "__main__":
             pdb_id = line[:4]
             info = pypdb.get_all_info(pdb_id)
             # Check if we go a "not found" error
-            # if int(info["status"]) == 404: download = False
+            if info == None: 
+                download = False
+                print(f"No PDB {pdb_id} found")
+                continue
 
             # Initialize our container; is a list of list, showing the source species for each chain
             species_for_chains = []
