@@ -45,6 +45,9 @@ if __name__ == "__main__":
             # Get the names of the entities in this structure (These are NOT NECESSARILY the chains- could be licands, nucleic acids, etc)
             entities = info["rcsb_entry_container_identifiers"]["polymer_entity_ids"]
             # Go through each entity, and check the species of the protein entities
+            
+            number_of_natural_chains = 0
+
             for entity in entities:
                 entity_info = pypdb.get_all_info(f"{pdb_id}/{entity}", url_root="http://data.rcsb.org/rest/v1/core/polymer_entity/")
                 # Verify the current entity is a protein before we go on
@@ -52,14 +55,14 @@ if __name__ == "__main__":
                     continue
                 # Go through each source organism for this entity, and if it's a natural source, save it
                 species_for_entity = []
-                number_of_natural_chains = 0
                 # Some protein chains don't actually have a species (small protein ligands) - verify to avoid KeyError, and skip this entity
                 if not "rcsb_entity_source_organism" in entity_info.keys(): continue
                 for source in entity_info["rcsb_entity_source_organism"]:
                     print(source["source_type"])
-                    if source["source_type"] == "natural":
+                    if "natural" in source["source_type"]: # If we find that the chain is natural, can record and stop checking species
                         species_for_entity.append(source["ncbi_scientific_name"])
                         number_of_natural_chains += 1
+                        break
                 species_for_chains.append(species_for_entity)
             # Check if the number of natural chains matches the number of monomers of the symmetry group
             if number_of_natural_chains != n_monomers: 
