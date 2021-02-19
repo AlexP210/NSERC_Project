@@ -5,6 +5,8 @@ import os
 from Bio import PDB
 import pypdb
 import My_Library as ml
+import requests
+import json
 
 if __name__ == "__main__":
     """ Downloads CIF files listed for PDB IDs listed in chains.txt """
@@ -26,12 +28,15 @@ if __name__ == "__main__":
             download = True
             # Get the info for this pdb
             pdb_id = line[:4]
+            # Check if the PDB ID is obsolete - if it is, log it and replace the pdb_id
+            response = requests.get(f"https://data.rcsb.org/rest/v1/holdings/status/{pdb_id.upper()}")
+            d = json.loads(response.content)
+            if d["rcsb_repository_holdings_combined"]["status"] == "REMOVED":
+                new_id = d["rcsb_repository_holdings_combined"]["id_code_replaced_by_latest"].lower()
+                print(f"{pdb_id} is obsolete, replaced by {new_id}")
+                pdb_id = new_id
+
             info = pypdb.get_all_info(pdb_id)
-            # Check if we go a "not found" error
-            if info == None: 
-                download = False
-                print(f"No PDB {pdb_id} found")
-                continue
 
             # Initialize our container; is a list of list, showing the source species for each chain
             species_for_chains = []
@@ -45,7 +50,7 @@ if __name__ == "__main__":
             # Get the names of the entities in this structure (These are NOT NECESSARILY the chains- could be licands, nucleic acids, etc)
             entities = info["rcsb_entry_container_identifiers"]["polymer_entity_ids"]
             # Go through each entity, and check the species of the protein entities
-            
+
             number_of_natural_chains = 0
 
             for entity in entities:
@@ -89,8 +94,10 @@ if __name__ == "__main__":
                     os.mkdir(download_folder_path)
                 # if we don't have the pdb, download it
                 # Problem: Obsolete PDBs are not downlaodable; cannot distinguish between an obsolete ID and failed connection
-                # Solution: If it doesn't work, note in the log that it MAY be obsolete
+                # Work-Around: If it doesn't work, note in the log that it MAY be obsolete
                 #           For now, will have to confirm it manually (it's likely true; lab internet connection is wired)
+                # Solution: After getting in contact with the PDB, there is a way to check the status of a PDB entry (see requests library usage at the top). 
+                #           If it's "REMOVED", then we can get the ID that replaced it.
                 if not os.path.isfile(os.path.join(download_folder_path, f"{pdb_id}.cif")):
                     try:
                         print(f"Downloading {pdb_id}.cif")
