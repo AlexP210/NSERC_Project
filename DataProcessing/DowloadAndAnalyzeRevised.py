@@ -40,7 +40,7 @@ RandomComplexInterfaceComparisonsAndStatistics = os.path.join(DataProcessing_dir
 
 # Main
 if __name__ == "__main__":
-    usage = f"\n$ python {os.path.basename(__file__)} <Periodic Table URL> <Current Working Directory> <Number of Monomers> <Max Sequence Similarity> <Max Structural Similarity> <Distance Cutoff> <Symmetries>\n"
+    usage = f"\n$ python {os.path.basename(__file__)} <Periodic Table URL> <Current Working Directory> <Number of Monomers> <Max Sequence Similarity> <Max Structural Similarity> <Distance Cutoff> <Number of Random Comparisons> <Symmetries>\n"
     if len(sys.argv) < 8:
         print(usage)
         sys.exit()
@@ -51,8 +51,9 @@ if __name__ == "__main__":
     max_sequence_similarity = sys.argv[4]
     max_structural_similarity = sys.argv[5]
     distance_cutoff = float(sys.argv[6])
-    if len(sys.argv) > 8: symmetry_groups = " ".join(sys.argv[7:-1])
-    elif len(sys.argv) == 8: symmetry_groups = sys.argv[7]
+    n_random_compares = int(sys.argv[7])
+    if len(sys.argv) > 9: symmetry_groups = " ".join(sys.argv[8:-1])
+    elif len(sys.argv) == 9: symmetry_groups = sys.argv[8]
 
     # Activate the environment, get the cwd, set up folder for logs
     print("Initializing ...")
@@ -107,7 +108,7 @@ if __name__ == "__main__":
 
     # # Random Comparisons
     print("Comparing random chains ...")
-    call = f"python -u {RandomComparisons} {os.path.join(cwd, 'Data')} 10000 > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
+    call = f"python -u {RandomComparisons} {os.path.join(cwd, 'Data')} {n_random_compares} > {os.path.join(logs_dir, 'RandomComparisons_Log.txt')}"
     os.system(call)
 
     # # Find Significant Pairs
