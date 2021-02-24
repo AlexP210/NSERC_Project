@@ -543,12 +543,16 @@ def find_species(species_for_chains):
         initial = False
         species = [species_for_chains[idx_idx][index_state[idx_idx]] for idx_idx in range(len(index_state))]
         initial_specie = species[0]
+        found_species = True
         for specie in species:
             if specie != initial_specie:
                 index_state = increment_index_state(index_state, species_for_chains)
+                found_species = False
                 break
+        if found_species:
             return True, initial_specie
     return False, None
 
 if __name__ == "__main__":
     print(find_species([["A", "B"], ["B", "A"]]))
+    print(find_species([[],[]]))
