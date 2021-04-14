@@ -17,7 +17,7 @@ CompareHOMs = os.path.join(DataProcessing_dir, "CompareHOMs.py")
 RemoveRedundantHOMs = os.path.join(DataProcessing_dir, "RemoveRedundantHOMs.py")
 RandomComparisons_HOMs = os.path.join(DataProcessing_dir, "RandomComparisons_HOMs.py")
 FindSignificantPairs_HOMS = os.path.join(DataProcessing_dir, "FindSignificantPairs_HOMs.py")
-
+BLASTSearch = os.path.join(DataProcessing_dir, "BLASTSearch.py")
 
 # Compare the Protein Chains
 SeparateChains = os.path.join(DataProcessing_dir, "SeparateChains.py") # PDB
@@ -114,6 +114,11 @@ if __name__ == "__main__":
     # # Find Significant Pairs
     print("Finding significant pairs ...")
     call = f"python -u {FindSignificantPairs} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'FindSignificantPairs_Log.txt')}"
+    os.system(call)
+
+    # # Find Significant Pairs
+    print("Running BLAST ...")
+    call = f"python -u {BLASTSearch} {os.path.join(cwd, 'Data')} > {os.path.join(logs_dir, 'BLASTSearch_Log.txt')}"
     os.system(call)
 
 

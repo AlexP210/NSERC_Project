@@ -553,6 +553,8 @@ def find_species(species_for_chains):
             return True, initial_specie
     return False, None
 
+def blast(seq_1, seq_2, )
+
 if __name__ == "__main__":
     print(find_species([["A", "B"], ["B", "A"]]))
     print(find_species([[],[]]))
